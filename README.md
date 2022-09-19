@@ -1,2 +1,2 @@
 # To-Do-List
-To-Do List Creater Browser App
+To-Do List Creater
