@@ -35,15 +35,15 @@
         <!-- NAV ------------------------------------------------>
         <section class="nav">
             <ul id="main-filters">
-                <li id="filter-all" class="selected">
+                <li id="filter-all" class="selected navLink">
                     <i class="fa-solid fa-list-check icons"></i>
                     <h3>All Tasks</h3>
                 </li>
-                <li id="filter-today">
+                <li id="filter-today" class="navLink">
                     <i class="fa-solid fa-calendar-day icons"></i>
                     <h3>Today</h3>
                 </li>
-                <li id="filter-week">
+                <li id="filter-week" class="navLink">
                     <i class="fa-solid fa-calendar-week icons"></i>
                     <h3>This Week</h3>
                 </li>
@@ -51,12 +51,12 @@
 
             <div id="baskets-wrapper">
                 <div class="baskets-heading-wrapper">
-                    <h2 id="filter-all-baskets">Baskets</h2>
+                    <h2>Baskets</h2>
                 </div>
                 <ul id="basket-filters">
                     <!-- EXAMPLE - REMOVE LATER BASKETS NAV SECTION -------------->
 
-                    <li class="basket-filter-wrapper">
+                    <li class="basket-filter-wrapper navLink">
                         <i class="fa-sharp fa-solid fa-basket-shopping icons"></i>
                         <h3 class="filter-basket">Knit Socks</h3>
                         <i class="fa-solid fa-xmark icons"></i>
@@ -65,8 +65,8 @@
                     <!-- EXAMPLE - REMOVE LATER BASKETS NAV SECTION -------------->
                 </ul>
                 <div id="add-basket-wrapper">
-                    <i class="fa-solid fa-plus icons"></i>
-                    <p id="add-basket">Add Basket</p>
+
+                    <p id="add-basket"><i class="fa-solid fa-plus icons"></i> Add Basket</p>
                 </div>
             </div>
 
@@ -77,15 +77,15 @@
 
             <!-- EXAMPLE - REMOVE LATER ACTUAL BASKETS -------------->
             <!-- All TASKS EXAMPLE -->
-            <div class="basket">
+            <!-- <div class="basket">
                 <div class="basket-header">
                     <div class="basket-name-wrapper">
                         <i class="fa-solid fa-list-check icons"></i>
                         <h2 class="basket-name">All Tasks</h2>
                     </div>
                     <div class="add-task-wrapper">
-                        <i class="fa-solid fa-plus icons"></i>
-                        <p>Add Task</p>
+
+                        <p class="add-task"><i class="fa-solid fa-plus icons"></i><span> Add Task</p>
                     </div>
                 </div>
                 <div class="tasks-in-basket">
@@ -108,13 +108,13 @@
                     <div class="task">
                         <div class="task-details">
                             <div class="task-title-wrapper">
-                                <i class="fa-regular fa-square icons"></i>
-                                <i class="fa-regular fa-square-check icons hidden"></i>
+                                <i class="fa-regular fa-square icons hidden"></i>
+                                <i class="fa-regular fa-square-check icons "></i>
                                 <h4>Find Template</h4>
                             </div>
                             <div class="task-status-wrapper">
                                 <p>Due Date</p>
-                                <i class="fa-solid fa-circle-exclamation"></i>
+                                <i class="fa-solid fa-circle-exclamation icons"></i>
                                 <i class="fa-solid fa-xmark icons"></i>
                             </div>
                         </div>
@@ -122,159 +122,19 @@
                         <p class="task-description">Anther longer description of what this task is. What happens if there is too much text? Well, lets find out, shall we?</p>
                     </div>
                 </div>
-            </div>
-            <!-- TODAY EXAMPLE -->
-            <div class="basket">
-                <div class="basket-header">
-                    <div class="basket-name-wrapper">
-                        <i class="fa-solid fa-calendar-day icons"></i>
-                        <h2 class="basket-name">Today</h2>
-                    </div>
-                    <div class="add-task-wrapper">
-                        <i class="fa-solid fa-plus icons"></i>
-                        <p>Add Task</p>
-                    </div>
-                </div>
-                <div class="tasks-in-basket">
-                    <div class="task">
-                        <div class="task-details">
-                            <div class="task-title-wrapper">
-                                <i class="fa-regular fa-square icons"></i>
-                                <i class="fa-regular fa-square-check icons hidden"></i>
-                                <h4>Buy yarn</h4>
-                            </div>
-                            <div class="task-status-wrapper">
-                                <p>Due Date</p>
-                                <i class="fa-solid fa-circle-exclamation"></i>
-                                <i class="fa-solid fa-xmark icons"></i>
-                            </div>
-                        </div>
+            </div> -->
 
-                        <p class="task-description">Description of what this task is.</p>
-                    </div>
-                    <div class="task">
-                        <div class="task-details">
-                            <div class="task-title-wrapper">
-                                <i class="fa-regular fa-square icons"></i>
-                                <i class="fa-regular fa-square-check icons hidden"></i>
-                                <h4>Find Template</h4>
-                            </div>
-                            <div class="task-status-wrapper">
-                                <p>Due Date</p>
-                                <i class="fa-solid fa-circle-exclamation"></i>
-                                <i class="fa-solid fa-xmark icons"></i>
-                            </div>
-                        </div>
-
-                        <p class="task-description">Anther longer description of what this task is. What happens if there is too much text? Well, lets find out, shall we?</p>
-                    </div>
-                </div>
-            </div>
-            <!-- THIS WEEK EXAMPLE -->
-            <div class="basket">
-                <div class="basket-header">
-                    <div class="basket-name-wrapper">
-                        <i class="fa-solid fa-calendar-week icons"></i>
-                        <h2 class="basket-name">This Week</h2>
-                    </div>
-                    <div class="add-task-wrapper">
-                        <i class="fa-solid fa-plus icons"></i>
-                        <p>Add Task</p>
-                    </div>
-                </div>
-                <div class="tasks-in-basket">
-                    <div class="task">
-                        <div class="task-details">
-                            <div class="task-title-wrapper">
-                                <i class="fa-regular fa-square icons"></i>
-                                <i class="fa-regular fa-square-check icons hidden"></i>
-                                <h4>Buy yarn</h4>
-                            </div>
-                            <div class="task-status-wrapper">
-                                <p>Due Date</p>
-                                <i class="fa-solid fa-circle-exclamation"></i>
-                                <i class="fa-solid fa-xmark icons"></i>
-                            </div>
-                        </div>
-
-                        <p class="task-description">Description of what this task is.</p>
-                    </div>
-                    <div class="task">
-                        <div class="task-details">
-                            <div class="task-title-wrapper">
-                                <i class="fa-regular fa-square icons"></i>
-                                <i class="fa-regular fa-square-check icons hidden"></i>
-                                <h4>Find Template</h4>
-                            </div>
-                            <div class="task-status-wrapper">
-                                <p>Due Date</p>
-                                <i class="fa-solid fa-circle-exclamation"></i>
-                                <i class="fa-solid fa-xmark icons"></i>
-                            </div>
-                        </div>
-
-                        <p class="task-description">Anther longer description of what this task is. What happens if there is too much text? Well, lets find out, shall we?</p>
-                    </div>
-                </div>
-            </div>
-            <!-- BASKET EXAMPLE -->
-            <div class="basket">
-                <div class="basket-header">
-                    <div class="basket-name-wrapper">
-                        <i class="fa-sharp fa-solid fa-basket-shopping icons"></i>
-                        <h2 class="basket-name">Knit Socks</h2>
-                    </div>
-                    <div class="add-task-wrapper">
-                        <i class="fa-solid fa-plus icons"></i>
-                        <p>Add Task</p>
-                    </div>
-                </div>
-                <div class="tasks-in-basket">
-                    <div class="task">
-                        <div class="task-details">
-                            <div class="task-title-wrapper">
-                                <i class="fa-regular fa-square icons"></i>
-                                <i class="fa-regular fa-square-check icons hidden"></i>
-                                <h4>Buy yarn</h4>
-                            </div>
-                            <div class="task-status-wrapper">
-                                <p>Due Date</p>
-                                <i class="fa-solid fa-circle-exclamation"></i>
-                                <i class="fa-solid fa-xmark icons"></i>
-                            </div>
-                        </div>
-
-                        <p class="task-description">Description of what this task is.</p>
-                    </div>
-                    <div class="task">
-                        <div class="task-details">
-                            <div class="task-title-wrapper">
-                                <i class="fa-regular fa-square icons"></i>
-                                <i class="fa-regular fa-square-check icons hidden"></i>
-                                <h4>Find Template</h4>
-                            </div>
-                            <div class="task-status-wrapper">
-                                <p>Due Date</p>
-                                <i class="fa-solid fa-circle-exclamation"></i>
-                                <i class="fa-solid fa-xmark icons"></i>
-                            </div>
-                        </div>
-
-                        <p class="task-description">Anther longer description of what this task is. What happens if there is too much text? Well, lets find out, shall we?</p>
-                    </div>
-                </div>
-            </div>
             <!-- EXAMPLE - REMOVE LATER ACTUAL BASKETS -------------->
         </section>
 
         <section class="forms hidden">
-
-            <form id="new-basket-form" action="" class="">
+            <form id="new-basket-form" action="" class="hidden">
                 <section class="form-heading">
                     <h2>New Basket</h2>
                     <i class="fa-solid fa-xmark icons"></i>
                 </section>
-                <p class="required">Required fields are followed by <strong><span aria-label="required">*</span></strong></p>
+                <p class="required">Required fields are followed by <strong><span aria-label="required">*</span></strong>
+                </p>
                 <section class="form-data">
                     <section class="left-side">
                         <label for="name">Name: *</label>
@@ -290,7 +150,7 @@
                     <button class="cancel">Cancel</button>
                 </section>
             </form>
-            <form id="new-task-form" action="" class="">
+            <form id="new-task-form" action="" class="hidden">
                 <section class="form-heading">
                     <h2>New Task</h2>
                     <i class="fa-solid fa-xmark icons"></i>
@@ -321,7 +181,36 @@
                     <button class="cancel">Cancel</button>
                 </section>
             </form>
-
+            <form id="edit-task-form" action="" class="">
+                <section class="form-heading">
+                    <h2>Task Details</h2>
+                    <i class="fa-solid fa-xmark icons"></i>
+                </section>
+                <section class="form-data">
+                    <section class="left-side">
+                        <label for="name">Task Name:</label>
+                        <input type="text" name="name" id="name">
+                        <label for="description">Description:</label>
+                        <textarea name="description" id="description" cols="30" rows="10"></textarea>
+                    </section>
+                    <section class="right-side">
+                        <label for="due-date">Due Date:</label>
+                        <input type="date" name="due-date" id="dute-date">
+                        <label for="priority">Priority:</label>
+                        <select name="priority" id="priority">
+                            <option value="">-- Choose Task Priority --</option>
+                            <option value="none" selected>None</option>
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </section>
+                </section>
+                <section class="form-btns">
+                    <button class="add">Save</button>
+                    <button class="cancel">Cancel</button>
+                </section>
+            </form>
         </section>
 
     </main>

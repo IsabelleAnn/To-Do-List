@@ -5,10 +5,10 @@
     --dark-font-color: #4d2411;
     --light-font-color: #ffffff;
     --border-style: dotted var(--dark-font-color) 2px;
-    --heading-background-color: rgb(231, 189, 111);
+    --heading-background-color: rgba(231, 189, 111, 0.425);
     --baskets-background-color: #ffffff;
-    --content-background-color: rgb(255, 202, 202);
-    --border-radius: 5px;
+    --content-background-color: linear-gradient(90deg, rgba(87, 217, 148, 0.781) 0%, rgba(48, 202, 233, 0.781) 100%);
+    --: 5px;
 }
 
 * {
@@ -32,7 +32,6 @@ header {
     padding: 10px;
     padding-left: 20px;
     border-bottom: var(--border-style);
-    box-shadow: 5px 5px 5px black;
     background-color: var(--heading-background-color);
 }
 
@@ -66,14 +65,26 @@ main {
     font-size: 1rem;
 }
 
-i.fa-plus {
-    cursor: pointer;
-}
-
 i.fa-xmark {
     margin-left: auto;
     cursor: pointer;
 }
+
+.task-title-wrapper>i,
+.task-status-wrapper>i {
+    width: 25px;
+}
+
+.task-title-wrapper>i:hover,
+i.fa-xmark:hover {
+    font-size: 1.2rem;
+}
+
+
+/* 
+.task-status-wrapper>p:hover {
+    font-weight: bold;
+} */
 
 
 /* Sidebar Nav Section */
@@ -109,7 +120,6 @@ li {
     display: flex;
     align-items: center;
     margin: 10px;
-    border-radius: var(--border-radius);
     border: 2px solid transparent;
 }
 
@@ -119,7 +129,10 @@ li.selected {
 }
 
 li:hover:not(.selected) {
-    border: solid var(--content-background-color) 2px;
+    border-style: solid;
+    border-width: 2px;
+    border-image-source: var(--content-background-color);
+    border-image-slice: 2;
     cursor: pointer;
 }
 
@@ -157,6 +170,14 @@ h3 {
     padding-left: 10px;
 }
 
+.add-task {}
+
+p#add-basket:hover,
+p.add-task:hover {
+    cursor: pointer;
+    font-weight: bold;
+}
+
 
 /* Content Section */
 
@@ -167,19 +188,19 @@ h3 {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    background-color: var(--content-background-color);
+    background-image: var(--content-background-color);
     overflow: scroll;
 }
 
 .basket {
     background-color: var(--baskets-background-color);
     width: 50%;
-    border-radius: var(--border-radius);
     padding: 30px;
     display: flex;
     flex-direction: column;
     margin-top: 30px;
     color: var(--dark-font-color);
+    box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.205);
 }
 
 .forms {
@@ -199,7 +220,6 @@ form {
     top: 25%;
     position: absolute;
     background-color: var(--baskets-background-color);
-    border-radius: var(--border-radius);
     display: flex;
     flex-direction: column;
 }
@@ -210,7 +230,6 @@ section.form-heading {
     width: 100%;
     padding: 10px 20px;
     background-color: var(--heading-background-color);
-    border-radius: var(--border-radius) var(--border-radius) 0px 0px;
     border-bottom: var(--border-style);
 }
 
@@ -239,15 +258,18 @@ section.form-btns {
     padding: 10px 20px 20px 10px;
 }
 
+form#edit-task-form>section.form-data {
+    margin-top: 20px;
+}
+
 button.add {
     color: var(--dark-font-color);
     font-size: 1.2rem;
     font-family: var(--font);
-    background-color: var(--heading-background-color);
-    border: solid 1px var(--dark-font-color);
+    background-image: var(--content-background-color);
+    border: none;
     width: 100px;
     height: 35px;
-    border-radius: var(--border-radius);
     margin-right: 10px;
     cursor: pointer;
 }
@@ -256,12 +278,16 @@ button.cancel {
     color: var(--dark-font-color);
     font-size: 1.2rem;
     font-family: var(--font);
-    background-color: var(--content-background-color);
-    border: solid 1px var(--dark-font-color);
-    border-radius: var(--border-radius);
+    background-color: var(--heading-background-color);
+    border: none;
     cursor: pointer;
     width: 100px;
     height: 35px;
+}
+
+button.add:hover,
+button.cancel:hover {
+    border: dotted 2px var(--dark-font-color);
 }
 
 label {
@@ -275,9 +301,9 @@ select {
     color: var(--dark-font-color);
     border: var(--dark-font-color) solid 1px;
     background-color: transparent;
-    border-radius: var(--border-radius);
     padding: 5px;
     font-family: var(--font);
+    font-size: 1rem;
 }
 
 p.required {
@@ -335,6 +361,11 @@ h4,
     padding: 10px 20px;
 }
 
+.task:hover {
+    background-color: var(--heading-background-color);
+    cursor: pointer;
+}
+
 .task-details {
     display: flex;
     justify-content: space-between;
@@ -354,6 +385,9 @@ h4,
 
 .task-description {
     padding: 5px 0px 0px 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .made-by {
