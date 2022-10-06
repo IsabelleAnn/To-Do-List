@@ -1,4 +1,37 @@
-let basketsLibrary = [{ basketName: 'Knit Socks', tasks: [{ taskName: 'buy yarn', description: 'go to walmart to buy yellow yarn', dueDate: 'Sunday', priority: 'high', completed: 'false' }] }, { basketName: 'Build Lamp', tasks: [{ taskName: 'buy yarn', description: 'go to walmart to buy yellow yarn', dueDate: 'Sunday', priority: 'high', completed: 'false' }, { taskName: 'buy yarn', description: 'go to walmart to buy yellow yarn', dueDate: 'Sunday', priority: 'high', completed: 'false' }] }];
+let basketsLibrary = [{
+        basketName: 'Knit Socks',
+        tasks: [{
+            taskName: 'Buy yarn A-1',
+            description: 'Go to walmart to buy yellow yarn',
+            dueDate: 'Today',
+            priority: 'high',
+            completed: 'false'
+        }, {
+            taskName: 'Buy yarn A-2',
+            description: 'Go to walmart to buy yellow yarn',
+            dueDate: 'This Week',
+            priority: 'high',
+            completed: 'false'
+        }]
+    },
+    {
+        basketName: 'Build Lamp',
+        tasks: [{
+            taskName: 'Buy yarn B-1',
+            description: 'Go to walmart to buy yellow yarn',
+            dueDate: 'This Week',
+            priority: 'high',
+            completed: 'false'
+        }, {
+            taskName: 'Buy yarn B-2',
+            description: 'Go to walmart to buy yellow yarn',
+            dueDate: 'Today',
+            priority: 'high',
+            completed: 'false'
+        }]
+    }
+];
+
 
 class Task {
     constructor(taskName, description, dueDate, priority = 'low', isComplete = false) {
@@ -24,13 +57,14 @@ class Task {
         return this.isComplete;
     }
 }
-
+let myNewTask = new Task('A task name', 'pull out the mower from the garage and mow the lawn', )
 class Basket {
-    constructor(basketName = 'No Name', tasks = {}) {
+    constructor(basketName = '', tasks = {}) {
         this.basketName = basketName;
         this.tasks = tasks;
     }
 }
+
 
 function addTaskToBasket(basketName, taskObject) {
     basketsLibrary[basketName].tasks.push(taskObject);
@@ -67,4 +101,4 @@ function removeBasketFromLibrary(index) {
 
 // removeTaskFromBasket();
 
-export {};
+export { basketsLibrary };
