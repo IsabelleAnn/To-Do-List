@@ -9,20 +9,5 @@ const tasksDueThisWeekBtn = document.querySelector('#filter-week');
 
 const basketLinks = document.querySelectorAll('.navLink');
 
-
-
-// allTasksBtn.addEventListener('click', allTasksClickHandler);
-// tasksDueTodayBtn.addEventListener('click', todayTasksClickHandler);
-// tasksDueThisWeekBtn.addEventListener('click', thisWeekTasksClickHandler);
-
-
-
-
-// let selectedB = 'Kit Socks';
-
-
-// displayAllBaskets(basketsLibrary, contentArea);
-// displayBasketsDue(basketsLibrary, 'TODAY', contentArea);
-// displayBasketsDue(basketsLibrary, 'THIS WEEK', contentArea);
-// displaySelectedBasket(basketsLibrary, selectedB, contentArea);
+displayAllBaskets(basketsLibrary, contentArea);
 export { contentArea, allTasksBtn, tasksDueTodayBtn, tasksDueThisWeekBtn }

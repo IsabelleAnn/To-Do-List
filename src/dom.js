@@ -3,6 +3,7 @@ import { contentArea } from ".";
 function displayAllBaskets(library, wrapper) {
     library.forEach((basket) => {
         let renderedBasket = renderBasket(basket, wrapper);
+        console.log(typeof basket);
         basket.tasks.forEach((task) => {
             renderTask(task, renderedBasket);
         });
@@ -10,18 +11,31 @@ function displayAllBaskets(library, wrapper) {
 }
 
 function displayBasketsDue(library, date, wrapper) {
-    let filteredBaskets = library.map((basket) => {
-        return {...basket, tasks: basket.tasks.filter((task) => task.dueDate === date) }
-    });
+    let filteredBaskets = [];
+    library.forEach((basket, index) => basket.tasks.forEach((task) => {
+        console.log(index);
+        if (task.dueDate === date) {
+            if ((filteredBaskets[index] === undefined)) {
+                filteredBaskets.push({ basketName: basket.basketName, tasks: [task] });
+                console.log(basket.basketName);
+            } else {
+                filteredBaskets[index].tasks.push(task);
+            }
+        }
+    }));
     displayAllBaskets(filteredBaskets, wrapper);
 }
 
 function displaySelectedBasket(library, selectedBasket, wrapper) {
-    let basket = library.find(b => b.basketName == selectedBasket);
+    let basket = library.find(b => b.basketName === selectedBasket);
     let renderedBasket = renderBasket(basket, wrapper);
     basket.tasks.forEach((task) => {
         renderTask(task, renderedBasket);
     });
+}
+
+function renderAddedBasket() {
+
 }
 
 function renderTask(currentTask, currentBasket) {

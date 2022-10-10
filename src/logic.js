@@ -32,46 +32,55 @@ let basketsLibrary = [{
     }
 ];
 
-
-class Task {
-    constructor(taskName, description, dueDate, priority = 'low', isComplete = false) {
-        this.taskName = taskName;
-        this.description = description;
-        this.dueDate = dueDate;
-        this.priority = priority;
-        this.isComplete = isComplete;
-    }
-    getTaskName() {
-        return this.taskName;
-    }
-    getDescripition() {
-        return this.description;
-    }
-    getdueDate() {
-        return this.dueDate;
-    }
-    getPriority() {
-        return this.priority;
-    }
-    getIsComplete() {
-        return this.isComplete;
-    }
-}
-let myNewTask = new Task('A task name', 'pull out the mower from the garage and mow the lawn', )
 class Basket {
-    constructor(basketName = '', tasks = {}) {
+    constructor(basketName = '', tasks = []) {
         this.basketName = basketName;
         this.tasks = tasks;
     }
 }
 
-
-function addTaskToBasket(basketName, taskObject) {
-    basketsLibrary[basketName].tasks.push(taskObject);
+class Task {
+    constructor(taskName = '', description = '', dueDate = '', priority = 'low', isComplete = false) {
+            this.taskName = taskName;
+            this.description = description;
+            this.dueDate = dueDate;
+            this.priority = priority;
+            this.isComplete = isComplete;
+        }
+        // getTaskName() {
+        //     return this.taskName;
+        // }
+        // getDescripition() {
+        //     return this.description;
+        // }
+        // getdueDate() {
+        //     return this.dueDate;
+        // }
+        // getPriority() {
+        //     return this.priority;
+        // }
+        // getIsComplete() {
+        //     return this.isComplete;
+        // }
 }
 
 
+let myNewBasket = new Basket('A New Basket Test');
+let myNewTask = new Task('A task name', 'pull out the mower from the garage and mow the lawn', 'Tonight')
+
+
+addBasketToLibrary(myNewBasket);
+console.log(basketsLibrary);
+addTaskToBasket(myNewBasket.basketName, myNewTask);
+console.log(basketsLibrary);
+
+function addTaskToBasket(myBasket, taskObject) {
+    let findBasket = basketsLibrary.find(basket => basket.basketName === myBasket);
+    findBasket.tasks.push(taskObject);
+}
+
 function removeTaskFromBasket(basketName, index) {
+
     basketsLibrary[basketName].tasks.splice(index, 1);
 }
 
