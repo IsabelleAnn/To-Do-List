@@ -24,8 +24,8 @@ body {
 
 header {
     color: var(--dark-font-color);
-    height: 10%;
-    width: 100%;
+    height: 10vh;
+    width: 100vw;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -47,8 +47,8 @@ h1 {
 }
 
 main {
-    width: 100%;
-    height: 90%;
+    width: 100vw;
+    height: 90vh;
     display: flex;
 }
 
@@ -140,7 +140,7 @@ li:hover:not(.selected) {
     display: flex;
     justify-content: space-between;
     padding: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     border-bottom: var(--border-style);
     font: var(--header-font);
 }
@@ -182,8 +182,10 @@ p.add-task:hover {
 /* Content Section */
 
 .content {
-    padding: 20px;
+    padding-bottom: 50px;
+    padding-top: 25px;
     width: 85%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -196,9 +198,9 @@ p.add-task:hover {
     background-color: var(--baskets-background-color);
     width: 50%;
     padding: 30px;
+    margin: 20px;
     display: flex;
     flex-direction: column;
-    margin-top: 30px;
     color: var(--dark-font-color);
     box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.205);
 }
