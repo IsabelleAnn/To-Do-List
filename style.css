@@ -92,7 +92,7 @@ i.fa-xmark:hover {
 .nav {
     color: var(--dark-font-color);
     padding: 10px;
-    width: 15%;
+    width: 20%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -184,7 +184,7 @@ p.add-task:hover {
 .content {
     padding-bottom: 50px;
     padding-top: 25px;
-    width: 85%;
+    width: 80%;
     height: 100%;
     display: flex;
     flex-direction: column;
