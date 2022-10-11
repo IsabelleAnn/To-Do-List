@@ -1,13 +1,13 @@
 import { basketsLibrary } from './logic.js';
-import { displayAllBaskets, displayBasketsDue, displaySelectedBasket } from './dom.js';
-import { allTasksClickHandler, selectedBasketTasksClickHandler, thisWeekTasksClickHandler, todayTasksClickHandler } from './eventHandlers.js';
+import { displayAllBaskets, displayBasketNavLinks } from './dom.js';
 
 const contentArea = document.querySelector('.content');
+const navArea = document.querySelector('#basket-filters');
 const allTasksBtn = document.querySelector('#filter-all');
 const tasksDueTodayBtn = document.querySelector('#filter-today');
 const tasksDueThisWeekBtn = document.querySelector('#filter-week');
 
-const basketLinks = document.querySelectorAll('.navLink');
-
+displayBasketNavLinks(basketsLibrary, navArea);
 displayAllBaskets(basketsLibrary, contentArea);
-export { contentArea, allTasksBtn, tasksDueTodayBtn, tasksDueThisWeekBtn }
+
+export { contentArea, navArea, allTasksBtn, tasksDueTodayBtn, tasksDueThisWeekBtn }

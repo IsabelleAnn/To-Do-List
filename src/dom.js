@@ -1,9 +1,12 @@
-import { contentArea } from ".";
+import { navigateBaskets } from './eventHandlers.js';
+import { removeBasketFromLibrary } from './logic.js';
+
+var baskets;
+var basketToDelete;
 
 function displayAllBaskets(library, wrapper) {
     library.forEach((basket) => {
         let renderedBasket = renderBasket(basket, wrapper);
-        console.log(typeof basket);
         basket.tasks.forEach((task) => {
             renderTask(task, renderedBasket);
         });
@@ -13,11 +16,9 @@ function displayAllBaskets(library, wrapper) {
 function displayBasketsDue(library, date, wrapper) {
     let filteredBaskets = [];
     library.forEach((basket, index) => basket.tasks.forEach((task) => {
-        console.log(index);
         if (task.dueDate === date) {
             if ((filteredBaskets[index] === undefined)) {
                 filteredBaskets.push({ basketName: basket.basketName, tasks: [task] });
-                console.log(basket.basketName);
             } else {
                 filteredBaskets[index].tasks.push(task);
             }
@@ -32,10 +33,6 @@ function displaySelectedBasket(library, selectedBasket, wrapper) {
     basket.tasks.forEach((task) => {
         renderTask(task, renderedBasket);
     });
-}
-
-function renderAddedBasket() {
-
 }
 
 function renderTask(currentTask, currentBasket) {
@@ -65,12 +62,10 @@ function renderTask(currentTask, currentBasket) {
     dueDate.textContent = currentTask.dueDate;
     const priorityIcon = document.createElement('i');
     priorityIcon.classList.add('fa-solid', 'fa-circle-exclamation', 'icons');
-    const xMarkIcon = document.createElement('i');
-    xMarkIcon.classList.add('fa-solid', 'fa-xmark', 'icons');
 
     taskStatusWrapper.appendChild(dueDate);
     taskStatusWrapper.appendChild(priorityIcon);
-    taskStatusWrapper.appendChild(xMarkIcon);
+    taskStatusWrapper.appendChild(createXMarkIcon());
 
     const taskDescription = document.createElement('p');
     taskDescription.classList.add('task-description');
@@ -92,30 +87,77 @@ function renderBasket(currentBasket, container) {
 
     const basketNameWrapper = document.createElement('div');
     basketNameWrapper.classList.add('basket-name-wrapper');
-    const addTaskWrapper = document.createElement('div');
-    addTaskWrapper.classList.add('add-task-wrapper');
-    basketHeader.appendChild(basketNameWrapper);
-    basketHeader.appendChild(addTaskWrapper);
 
-    const checkListIcon = document.createElement('i');
-    checkListIcon.classList.add('fa-sharp', 'fa-solid', 'fa-basket-shopping', 'icons');
+    basketHeader.appendChild(basketNameWrapper);
+    basketHeader.appendChild(createAddBtn('task'));
+
     const basketName = document.createElement('h2');
     basketName.classList.add('basket-name');
     basketName.textContent = currentBasket.basketName;
-    basketNameWrapper.appendChild(checkListIcon);
+    basketNameWrapper.appendChild(createBasketIcon());
     basketNameWrapper.appendChild(basketName);
-
-    const addTask = document.createElement('p');
-    addTask.classList.add('add-task');
-    const plusIcon = document.createElement('i');
-    plusIcon.classList.add('fa-solid', 'fa-plus', 'icons');
-    const span = document.createElement('span');
-    addTaskWrapper.appendChild(addTask);
-    addTask.appendChild(plusIcon);
-    addTask.appendChild(span);
-    span.textContent = ' Add Task';
 
     return tasksInBasket;
 }
 
-export { displayAllBaskets, displayBasketsDue, displaySelectedBasket }
+function displayBasketNavLinks(library, navContainer) {
+    library.forEach((basket) => {
+        renderBasketToNav(basket.basketName, navContainer);
+    });
+}
+
+function renderBasketToNav(basketName, navWrapper) {
+    const basketFilterWrapper = document.createElement('li');
+    basketFilterWrapper.classList.add('basket-filter-wrapper', 'nav-link');
+    basketFilterWrapper.addEventListener('click', navigateBaskets);
+    const filterBasketName = document.createElement('h3');
+    filterBasketName.classList.add('filter-basket');
+    filterBasketName.textContent = basketName;
+
+    navWrapper.appendChild(basketFilterWrapper);
+    basketFilterWrapper.appendChild(createBasketIcon());
+    basketFilterWrapper.appendChild(filterBasketName);
+    basketFilterWrapper.appendChild(createXMarkIcon());
+}
+
+function createXMarkIcon() {
+    const xMarkIcon = document.createElement('i');
+    xMarkIcon.classList.add('fa-solid', 'fa-xmark', 'icons');
+    return xMarkIcon;
+}
+
+function createBasketIcon() {
+    const basketIcon = document.createElement('i');
+    basketIcon.classList.add('fa-sharp', 'fa-solid', 'fa-basket-shopping', 'icons');
+    return basketIcon;
+}
+
+function createAddBtn(adderName) {
+    const adderWrapper = document.createElement('div');
+    adderWrapper.classList.add(`add-${adderName}-wrapper`);
+    const adder = document.createElement('p');
+    adder.classList.add(`add-${adderName}`);
+    const plusIcon = document.createElement('i');
+    plusIcon.classList.add('fa-solid', 'fa-plus', 'icons');
+    const span = document.createElement('span');
+    adderWrapper.appendChild(adder);
+    adder.appendChild(plusIcon);
+    adder.appendChild(span);
+    span.textContent = ` Add ${adderName.charAt(0).toUpperCase()+adderName.slice(1)}`;
+    return adderWrapper;
+}
+
+function removeBasketFromDOM(target, index) {
+    baskets = Array.from(document.querySelectorAll('.basket'));
+    basketToDelete = baskets.find((parent) => {
+        if (parent.querySelector('.basket-name').textContent === target.innerText) {
+            return parent;
+        }
+    });
+    if (basketToDelete !== undefined) {
+        basketToDelete.remove();
+    }
+    target.remove();
+    removeBasketFromLibrary(index);
+}
+export { displayAllBaskets, displayBasketsDue, displaySelectedBasket, displayBasketNavLinks, removeBasketFromDOM }

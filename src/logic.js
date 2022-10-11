@@ -64,15 +64,11 @@ class Task {
         // }
 }
 
-
 let myNewBasket = new Basket('A New Basket Test');
 let myNewTask = new Task('A task name', 'pull out the mower from the garage and mow the lawn', 'Tonight')
 
-
 addBasketToLibrary(myNewBasket);
-console.log(basketsLibrary);
 addTaskToBasket(myNewBasket.basketName, myNewTask);
-console.log(basketsLibrary);
 
 function addTaskToBasket(myBasket, taskObject) {
     let findBasket = basketsLibrary.find(basket => basket.basketName === myBasket);
@@ -80,7 +76,6 @@ function addTaskToBasket(myBasket, taskObject) {
 }
 
 function removeTaskFromBasket(basketName, index) {
-
     basketsLibrary[basketName].tasks.splice(index, 1);
 }
 
@@ -90,24 +85,6 @@ function addBasketToLibrary(basketObject) {
 
 function removeBasketFromLibrary(index) {
     basketsLibrary.splice(index, 1);
-
 }
 
-// basketsLibrary.forEach((basket) => {
-//     console.log(basket);
-// });
-
-// addBasketToLibrary(new Basket());
-
-// basketsLibrary.forEach((basket) => {
-//     console.log(basket);
-// });
-// removeBasketFromLibrary(1);
-
-// basketsLibrary.forEach((basket) => {
-//     console.log(basket);
-// });
-
-// removeTaskFromBasket();
-
-export { basketsLibrary };
+export { basketsLibrary, removeBasketFromLibrary, removeTaskFromBasket };

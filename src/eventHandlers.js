@@ -1,17 +1,26 @@
-import { displayAllBaskets, displayBasketsDue, displaySelectedBasket } from './dom.js';
-import { contentArea, allTasksBtn, tasksDueTodayBtn, tasksDueThisWeekBtn } from './index.js';
+import { et } from 'date-fns/locale';
+import { displayAllBaskets, displayBasketsDue, displaySelectedBasket, removeBasketFromDOM } from './dom.js';
+import { contentArea } from './index.js';
 import { basketsLibrary } from './logic.js';
 
-const navLinks = document.querySelectorAll('.navLink');
+const navLinks = document.querySelectorAll('.nav-link');
+navLinks.forEach(link => {
+    link.addEventListener('click', navigateBaskets);
+});
 let current = 'All Tasks';
 
-navLinks.forEach(link => {
-    link.addEventListener('click', onClick);
-});
-
-function onClick(e) {
-    handleClick(basketsLibrary, e.target.innerText, contentArea);
-    current = e.target.innerText;
+function navigateBaskets(e) {
+    if (e.target.className === 'fa-solid fa-xmark icons') {
+        let index = basketsLibrary.indexOf(basketsLibrary.find((basket, index) => {
+            if (basket.basketName === e.currentTarget.innerText) {
+                return basket;
+            }
+        }));
+        removeBasketFromDOM(e.currentTarget, index);
+    } else {
+        handleClick(basketsLibrary, e.currentTarget.innerText, contentArea);
+        current = e.currentTarget.innerText;
+    }
 }
 
 function handleClick(library, filter, wrapper) {
@@ -28,3 +37,5 @@ function handleClick(library, filter, wrapper) {
         displaySelectedBasket(library, filter, wrapper);
     }
 }
+
+export { navigateBaskets }
