@@ -5,13 +5,11 @@ let basketsLibrary = [{
             description: 'Go to walmart to buy yellow yarn',
             dueDate: 'Today',
             priority: 'high',
-            completed: 'false'
         }, {
             taskName: 'Buy yarn A-2',
             description: 'Go to walmart to buy yellow yarn',
             dueDate: 'This Week',
-            priority: 'high',
-            completed: 'false'
+            priority: 'medium',
         }]
     },
     {
@@ -20,14 +18,12 @@ let basketsLibrary = [{
             taskName: 'Buy yarn B-1',
             description: 'Go to walmart to buy yellow yarn',
             dueDate: 'This Week',
-            priority: 'high',
-            completed: 'false'
+            priority: 'low',
         }, {
             taskName: 'Buy yarn B-2',
             description: 'Go to walmart to buy yellow yarn',
             dueDate: 'Today',
-            priority: 'high',
-            completed: 'false'
+            priority: 'none',
         }]
     }
 ];
@@ -40,12 +36,11 @@ class Basket {
 }
 
 class Task {
-    constructor(taskName = '', description = '', dueDate = '', priority = 'low', isComplete = false) {
+    constructor(taskName = '', description = '', dueDate = '', priority = 'low') {
             this.taskName = taskName;
             this.description = description;
             this.dueDate = dueDate;
             this.priority = priority;
-            this.isComplete = isComplete;
         }
         // getTaskName() {
         //     return this.taskName;
@@ -75,8 +70,8 @@ function addTaskToBasket(myBasket, taskObject) {
     findBasket.tasks.push(taskObject);
 }
 
-function removeTaskFromBasket(basketName, index) {
-    basketsLibrary[basketName].tasks.splice(index, 1);
+function removeTaskFromLibrary(basketTitle, index) {
+    basketsLibrary.find((basket) => basket.basketName === basketTitle).tasks.splice(index, 1);
 }
 
 function addBasketToLibrary(basketObject) {
@@ -87,4 +82,4 @@ function removeBasketFromLibrary(index) {
     basketsLibrary.splice(index, 1);
 }
 
-export { basketsLibrary, removeBasketFromLibrary, removeTaskFromBasket };
+export { basketsLibrary, removeBasketFromLibrary, removeTaskFromLibrary };
