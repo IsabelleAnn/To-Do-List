@@ -3,12 +3,28 @@
     --header-font: 2rem 'Arizonia', cursive;
     --font: 200 1rem 'Inter Tight', sans-serif;
     --dark-font-color: #4d2411;
-    --light-font-color: #ffffff;
     --border-style: dotted var(--dark-font-color) 2px;
-    --heading-background-color: rgba(231, 189, 111, 0.425);
+    --heading-background-color: #e7bd6f6c;
     --baskets-background-color: #ffffff;
-    --content-background-color: linear-gradient(90deg, rgba(87, 217, 148, 0.781) 0%, rgba(48, 202, 233, 0.781) 100%);
+    --content-background-color: linear-gradient(90deg, #57d99494 0%, #30cae99c 100%);
+    --light-content-background-color: linear-gradient(90deg, #57d99456 0%, #30cae959 100%);
     --: 5px;
+}
+
+.high-priority {
+    color: #f54899;
+}
+
+.medium-priority {
+    color: #30cae9;
+}
+
+.low-priority {
+    color: #57d994;
+}
+
+.no-priority {
+    color: transparent;
 }
 
 * {
@@ -80,6 +96,10 @@ i.fa-xmark:hover {
     font-size: 1.2rem;
 }
 
+.task-checked {
+    text-decoration-line: line-through;
+}
+
 
 /* 
 .task-status-wrapper>p:hover {
@@ -120,19 +140,22 @@ li {
     display: flex;
     align-items: center;
     margin: 10px;
-    border: 2px solid transparent;
+    border-radius: 15px;
+    outline: solid 2px transparent;
+    border: solid 3px transparent;
 }
 
 li.selected {
     background-color: var(--heading-background-color);
-    color: var(--dark-font-color);
+}
+
+li:hover:not(.selected),
+li.selected {
+    outline: solid 2px var(--dark-font-color);
+    border: solid 3px var(--heading-background-color);
 }
 
 li:hover:not(.selected) {
-    border-style: solid;
-    border-width: 2px;
-    border-image-source: var(--content-background-color);
-    border-image-slice: 2;
     cursor: pointer;
 }
 
@@ -196,6 +219,9 @@ p.add-task:hover {
 
 .basket {
     background-color: var(--baskets-background-color);
+    outline: solid 3px var(--dark-font-color);
+    border: solid 5px var(--heading-background-color);
+    border-radius: 50px;
     width: 50%;
     padding: 30px;
     margin: 20px;
@@ -316,6 +342,7 @@ p.required {
 .basket-header {
     border-bottom: var(--border-style);
     align-items: center;
+    margin-bottom: 10px;
 }
 
 .basket-header,
@@ -361,6 +388,7 @@ h4,
     display: flex;
     flex-direction: column;
     padding: 10px 20px;
+    border-radius: 12px;
 }
 
 .task:hover {
@@ -411,5 +439,5 @@ h4,
 }
 
 .made-by a:hover {
-    color: var(--baskets-background-color);
+    color: #f54899;
 }
