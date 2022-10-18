@@ -1,56 +1,183 @@
 import { et } from 'date-fns/locale';
-import { displayAllBaskets, displayBasketsDue, displaySelectedBasket, toggleSelectedLink, toggleTaskDetails, toggleTaskCompleted, removeBasket, removeTask } from './dom.js';
+import { revealTaskForm, renderBasketToNav, toggleSelectedLink, toggleTaskDescription, toggleTaskCompleted, removeBasket, removeTask, renderTaskToBasket } from './dom.js';
 import { contentArea } from './index.js';
-import { basketsLibrary } from './logic.js';
+import { addTaskToBasket, Basket, Task, basketsLibrary, createNewBasket, filterAllBaskets, filterBasketsDue, filterSelectedBasket } from './logic.js';
 
-const navLinks = document.querySelectorAll('.nav-link');
-navLinks.forEach(link => {
-    link.addEventListener('click', handleClick);
-});
 var prevTarget = 'All Tasks';
 var basketIndex;
 var taskIndex;
+var currentBasket;
 
-function handleClick(e) {
-    console.log(e.currentTarget.className);
-    if (e.target.className === 'fa-solid fa-xmark icons') {
+const mainNavLinks = document.querySelectorAll('.main-nav-link');
+mainNavLinks.forEach(link => {
+    link.addEventListener('click', handleNavClick);
+});
+
+const taskLinks = document.querySelectorAll('.task');
+taskLinks.forEach((task) => {
+    task.addEventListener('click', handleTaskClick);
+});
+
+const addBasketLink = document.querySelector('#add-basket');
+addBasketLink.addEventListener('click', revealBasketForm);
+
+const addBasketBtn = document.querySelector('#add-basket-btn');
+addBasketBtn.addEventListener('click', addNewBasket);
+
+const cancelBasketBtn = document.querySelector('#cancel-basket-btn');
+cancelBasketBtn.addEventListener('click', cancelBasket);
+
+const addTaskBtn = document.querySelector('#add-task-btn');
+addTaskBtn.addEventListener('click', addNewTask);
+
+const cancelTaskBtn = document.querySelector('#cancel-task-btn');
+cancelTaskBtn.addEventListener('click', cancelTask);
+
+let newBasketName;
+let newTaskName;
+let newTaskDescription;
+let newTaskDueDate;
+let newTaskPriority;
+
+//////////////////////////////Form Handlers//////////////////////////////
+
+function revealBasketForm() {
+    document.querySelector('#new-basket-form').classList.remove('hidden');
+    document.querySelector('.forms').classList.remove('hidden');
+}
+
+function hideBasketForm() {
+    document.querySelector('#new-basket-form').classList.add('hidden');
+    document.querySelector('.forms').classList.add('hidden');
+}
+
+function emptyBasketForm() {
+    document.querySelector('#basket-name').value = '';
+}
+
+function addTaskLinkClick(e) {
+    revealTaskForm();
+    console.log(e.target);
+    currentBasket = e.target;
+}
+
+function hideTaskForm() {
+    document.querySelector('#new-basket-form').classList.add('hidden');
+    document.querySelector('.forms').classList.add('hidden');
+}
+
+function emptyTaskForm() {
+    document.querySelector('#task-name').value = '';
+    document.querySelector('#description').value = '';
+    document.querySelector('#due-date').value = '';
+    document.querySelector('#priority').value = 'none';
+
+}
+
+function addNewBasket(e) {
+    e.preventDefault();
+    console.log('add new basket');
+    newBasketName = document.querySelector('#basket-name').value;
+    console.log(newBasketName);
+    let newBasket = new Basket(newBasketName);
+    createNewBasket(newBasket);
+    renderBasketToNav(newBasket.basketName, document.querySelector('#basket-filters'));
+    hideBasketForm();
+    emptyBasketForm();
+}
+
+function cancelBasket(e) {
+    e.preventDefault();
+    hideBasketForm();
+    emptyBasketForm();
+}
+
+function addNewTask(e) {
+    e.preventDefault();
+    console.log('new task event', e.target);
+    newTaskName = document.querySelector('#task-name').value;
+    newTaskDescription = document.querySelector('#description').value;
+    newTaskDueDate = document.querySelector('#due-date').value;
+    newTaskPriority = document.querySelector('#priority');
+
+    let newTask = new Task(newTaskName, newTaskDescription, newTaskDueDate, newTaskPriority);
+
+    // addTaskToBasket(newTask, basket);
+    renderTaskToBasket(newTask, "ENTER CURRENT BASKET VARIABLE");
+    hideTaskForm();
+    emptyTaskForm();
+}
+
+function cancelTask(e) {
+    e.preventDefault();
+    hideTaskForm();
+    emptyTaskForm();
+}
+
+//////////////////////////////Content+Navigation Handlers//////////////////////////////
+
+function handleNavClick(e) {
+    console.log('handleNavClick', e);
+    toggleSelectedLink(e.currentTarget);
+    handleContentDisplay(basketsLibrary, e.currentTarget.innerText, contentArea);
+    prevTarget = e.currentTarget.innerText;
+
+}
+
+function isClickOnXMark(className) {
+    console.log('isClickOnXMark', className);
+
+    return (className === 'fa-solid fa-xmark icon');
+
+}
+
+function handleBasketFilterClick(e) {
+    console.log('handleBasketFilterClick', e);
+    if (isClickOnXMark(e.target.className)) {
+        console.log('xmark current target', e.currentTarget);
         handleContentRemoval(basketsLibrary, e.currentTarget);
-    } else if (e.currentTarget.classList.contains('nav-link')) {
-        toggleSelectedLink(e.currentTarget);
-        handleContentDisplay(basketsLibrary, e.currentTarget.innerText, contentArea);
-        prevTarget = e.currentTarget.innerText;
-
-    } else if (e.currentTarget.className === 'task') {
-        if (e.target.classList.contains('fa-regular')) {
-            toggleTaskCompleted(e.currentTarget);
-        } else {
-            console.log('task targeted');
-            console.log('open task details window');
-            toggleTaskDetails(e.currentTarget);
-        }
+    } else
+    if (e.currentTarget.classList.contains('nav-link')) {
+        handleNavClick(e);
     }
 }
 
-function handleContentDisplay(library, currentTarget, contentContainer) {
+function handleTaskClick(e) {
+    console.log('handleTaskClick', e);
+    if (isClickOnXMark(e.target.className)) {
+        console.log('xmark current target', e.currentTarget);
+        handleContentRemoval(basketsLibrary, e.currentTarget);
+    } else if (e.target.classList.contains('fa-regular')) {
+        console.log('toggleTaskCompleted', e.currentTarget);
+        toggleTaskCompleted(e.currentTarget);
+    } else {
+        console.log('task targeted');
+        console.log('open task details window');
+        toggleTaskDescription(e.currentTarget);
+    }
 
+}
+
+function handleContentDisplay(library, currentTarget, contentContainer) {
+    console.log('handleContentDisplay', library, currentTarget, contentContainer);
     if (prevTarget !== currentTarget) {
         contentContainer.textContent = '';
         if (currentTarget === 'All Tasks') {
-            displayAllBaskets(library, contentContainer);
+            filterAllBaskets(library, contentContainer);
             return;
         }
         if (currentTarget === 'Today' || currentTarget === 'This Week') {
-            displayBasketsDue(library, currentTarget, contentContainer);
+            filterBasketsDue(library, currentTarget, contentContainer);
             return;
         }
-        displaySelectedBasket(library, currentTarget, contentContainer);
+        filterSelectedBasket(library, currentTarget, contentContainer);
     }
 
 }
 
 function handleContentRemoval(library, currentTarget) {
-
-    if (currentTarget.className === "basket-filter-wrapper nav-link") {
+    console.log('handleContentRemoval', library, currentTarget);
+    if (currentTarget.classList.contains('nav-link')) {
         basketIndex = library.indexOf(library.find((basket) => {
             if (basket.basketName === currentTarget.innerText) {
                 return basket;
@@ -71,4 +198,4 @@ function handleContentRemoval(library, currentTarget) {
     }
 }
 
-export { handleClick }
+export { addTaskLinkClick, handleBasketFilterClick, revealBasketForm, revealTaskForm, handleTaskClick }

@@ -22,7 +22,7 @@
 <body>
     <header>
         <div class="page-logo">
-            <i id="logo" class="fa-sharp fa-solid fa-basket-shopping icons"></i>
+            <i id="logo" class="fa-sharp fa-solid fa-basket-shopping icon"></i>
             <h1>Task Baskets</h1>
         </div>
         <div class="made-by">
@@ -35,16 +35,16 @@
         <!-- NAV ------------------------------------------------>
         <section class="nav">
             <ul id="main-filters">
-                <li id="filter-all" class="nav-link selected">
-                    <i class="fa-solid fa-list-check icons"></i>
+                <li id="filter-all" class="main-nav-link selected">
+                    <i class="fa-solid fa-list-check icon"></i>
                     <h3>All Tasks</h3>
                 </li>
-                <li id="filter-today" class="nav-link">
-                    <i class="fa-solid fa-calendar-day icons"></i>
+                <li id="filter-today" class="main-nav-link">
+                    <i class="fa-solid fa-calendar-day icon"></i>
                     <h3>Today</h3>
                 </li>
-                <li id="filter-week" class="nav-link">
-                    <i class="fa-solid fa-calendar-week icons"></i>
+                <li id="filter-week" class="main-nav-link">
+                    <i class="fa-solid fa-calendar-week icon"></i>
                     <h3>This Week</h3>
                 </li>
             </ul>
@@ -57,16 +57,16 @@
                     <!-- EXAMPLE - REMOVE LATER BASKETS NAV SECTION -------------->
 
                     <!-- <li class="basket-filter-wrapper nav-link">
-                        <i class="fa-sharp fa-solid fa-basket-shopping icons"></i>
+                        <i class="fa-sharp fa-solid fa-basket-shopping icon"></i>
                         <h3 class="filter-basket">Knit Socks</h3>
-                        <i class="fa-solid fa-xmark icons"></i>
+                        <i class="fa-solid fa-xmark icon"></i>
                     </li> -->
 
                     <!-- EXAMPLE - REMOVE LATER BASKETS NAV SECTION -------------->
                 </ul>
                 <div id="add-basket-wrapper">
 
-                    <p id="add-basket"><i class="fa-solid fa-plus icons"></i> Add Basket</p>
+                    <p id="add-basket"><i class="fa-solid fa-plus icon"></i> Add Basket</p>
                 </div>
             </div>
 
@@ -77,52 +77,37 @@
 
             <!-- EXAMPLE - REMOVE LATER ACTUAL BASKETS -------------->
             <!-- All TASKS EXAMPLE -->
-            <!-- <div class="basket">
+            <div class="basket hidden">
                 <div class="basket-header">
                     <div class="basket-name-wrapper">
-                        <i class="fa-solid fa-list-check icons"></i>
-                        <h2 class="basket-name">All Tasks</h2>
+                        <i class="fa-solid fa-list-check icon"></i>
+                        <h2 class="basket-name">I'm HTML</h2>
                     </div>
                     <div class="add-task-wrapper">
 
-                        <p class="add-task"><i class="fa-solid fa-plus icons"></i><span> Add Task</p>
+                        <p class="add-task"><i class="fa-solid fa-plus icon"></i><span> Add Task</p>
                     </div>
                 </div>
                 <div class="tasks-in-basket">
                     <div class="task">
                         <div class="task-details">
                             <div class="task-title-wrapper">
-                                <i class="fa-regular fa-square icons"></i>
-                                <i class="fa-regular fa-square-check icons hidden"></i>
+                                <i class="fa-regular fa-square icon"></i>
+                                <i class="fa-regular fa-square-check icon hidden"></i>
                                 <h4>Buy yarn</h4>
                             </div>
                             <div class="task-status-wrapper">
                                 <p>Due Date</p>
-                                <i class="fa-solid fa-circle-exclamation"></i>
-                                <i class="fa-solid fa-xmark icons"></i>
+                                <i class="fa-solid fa-circle-exclamation no-priority"></i>
+                                <i class="fa-solid fa-xmark icon"></i>
                             </div>
                         </div>
 
-                        <p class="task-description">Description of what this task is.</p>
+                        <p class="task-description ">Description of what this task is. Make it extra long so that we can see what the text will do. I have a lovely bunch of coconuts, diddly diddly, there they are all standing in a row.</p>
                     </div>
-                    <div class="task">
-                        <div class="task-details">
-                            <div class="task-title-wrapper">
-                                <i class="fa-regular fa-square icons hidden"></i>
-                                <i class="fa-regular fa-square-check icons "></i>
-                                <h4>Find Template</h4>
-                            </div>
-                            <div class="task-status-wrapper">
-                                <p>Due Date</p>
-                                <i class="fa-solid fa-circle-exclamation icons"></i>
-                                <i class="fa-solid fa-xmark icons"></i>
-                            </div>
-                        </div>
 
-                        <p class="task-description">Anther longer description of what this task is. What happens if there is too much text? Well, lets find out, shall we?</p>
-                    </div>
                 </div>
-            </div> -->
+            </div>
 
             <!-- EXAMPLE - REMOVE LATER ACTUAL BASKETS -------------->
         </section>
@@ -131,86 +116,86 @@
             <form id="new-basket-form" action="" class="hidden">
                 <section class="form-heading">
                     <h2>New Basket</h2>
-                    <i class="fa-solid fa-xmark icons"></i>
+                    <i class="fa-solid fa-xmark icon"></i>
                 </section>
                 <p class="required">Required fields are followed by <strong><span aria-label="required">*</span></strong>
-                </p>
-                <section class="form-data">
-                    <section class="left-side">
-                        <label for="name">Name: *</label>
-                        <input type="text" name="name" id="name">
-                    </section>
-                    <section class="right-side">
-                        <label for="color">Color:</label>
-                        <input type="color" name="color" id="color">
-                    </section>
-                </section>
-                <section class="form-btns">
-                    <button class="add">Add</button>
-                    <button class="cancel">Cancel</button>
-                </section>
-            </form>
-            <form id="new-task-form" action="" class="hidden">
-                <section class="form-heading">
-                    <h2>New Task</h2>
-                    <i class="fa-solid fa-xmark icons"></i>
-                </section>
-                <p class="required">Required fields are followed by <strong><span aria-label="required">*</span></strong></p>
-                <section class="form-data">
-                    <section class="left-side">
-                        <label for="name">Name: *</label>
-                        <input type="text" name="name" id="name">
-                        <label for="description">Description:</label>
-                        <textarea name="description" id="description" cols="30" rows="10"></textarea>
-                    </section>
-                    <section class="right-side">
-                        <label for="due-date">Due Date:</label>
-                        <input type="date" name="due-date" id="dute-date">
-                        <label for="priority">Priority:</label>
-                        <select name="priority" id="priority">
+                        </p>
+                        <section class="form-data">
+                            <section id="name">
+                                <label for="basket-name">Name: *</label>
+                                <input type="text" name="basket-name" id="basket-name">
+                            </section>
+                            <!-- <section class="right-side">
+                                <label for="color">Color:</label>
+                                <input type="color" name="color" id="color">
+                            </section> -->
+                        </section>
+                        <section class="form-btns">
+                            <button id="add-basket-btn">Add</button>
+                            <button id="cancel-basket-btn">Cancel</button>
+                        </section>
+                        </form>
+                        <form id="new-task-form" action="" class="hidden">
+                            <section class="form-heading">
+                                <h2>New Task</h2>
+                                <i class="fa-solid fa-xmark icon"></i>
+                            </section>
+                            <p class="required">Required fields are followed by <strong><span aria-label="required">*</span></strong></p>
+                            <section class="form-data">
+                                <section class="left-side">
+                                    <label for="task-name">Name: *</label>
+                                    <input type="text" name="task-name" id="task-name">
+                                    <label for="description">Description:</label>
+                                    <textarea name="description" id="description" cols="30" rows="10"></textarea>
+                                </section>
+                                <section class="right-side">
+                                    <label for="due-date">Due Date:</label>
+                                    <input type="date" name="due-date" id="due-date">
+                                    <label for="priority">Priority:</label>
+                                    <select name="priority" id="priority">
                             <option value="">-- Choose Task Priority --</option>
                             <option value="none" selected>None</option>
                             <option value="low">Low</option>
                             <option value="medium">Medium</option>
                             <option value="high">High</option>
                         </select>
-                    </section>
-                </section>
-                <section class="form-btns">
-                    <button class="add">Add</button>
-                    <button class="cancel">Cancel</button>
-                </section>
-            </form>
-            <form id="edit-task-form" action="" class="">
-                <section class="form-heading">
-                    <h2>Task Details</h2>
-                    <i class="fa-solid fa-xmark icons"></i>
-                </section>
-                <section class="form-data">
-                    <section class="left-side">
-                        <label for="name">Task Name:</label>
-                        <input type="text" name="name" id="name">
-                        <label for="description">Description:</label>
-                        <textarea name="description" id="description" cols="30" rows="10"></textarea>
-                    </section>
-                    <section class="right-side">
-                        <label for="due-date">Due Date:</label>
-                        <input type="date" name="due-date" id="dute-date">
-                        <label for="priority">Priority:</label>
-                        <select name="priority" id="priority">
+                                </section>
+                            </section>
+                            <section class="form-btns">
+                                <button id="add-task-btn">Add</button>
+                                <button id="cancel-task-btn">Cancel</button>
+                            </section>
+                        </form>
+                        <!-- <form id="edit-task-form" action="" class="">
+                            <section class="form-heading">
+                                <h2>Task Details</h2>
+                                <i class="fa-solid fa-xmark icon"></i>
+                            </section>
+                            <section class="form-data">
+                                <section class="left-side">
+                                    <label for="name">Task Name:</label>
+                                    <input type="text" name="name" id="name">
+                                    <label for="description">Description:</label>
+                                    <textarea name="description" id="description" cols="30" rows="10"></textarea>
+                                </section>
+                                <section class="right-side">
+                                    <label for="due-date">Due Date:</label>
+                                    <input type="date" name="due-date" id="dute-date">
+                                    <label for="priority">Priority:</label>
+                                    <select name="priority" id="priority">
                             <option value="">-- Choose Task Priority --</option>
                             <option value="none" selected>None</option>
                             <option value="low">Low</option>
                             <option value="medium">Medium</option>
                             <option value="high">High</option>
                         </select>
-                    </section>
-                </section>
-                <section class="form-btns">
-                    <button class="add">Save</button>
-                    <button class="cancel">Cancel</button>
-                </section>
-            </form>
+                                </section>
+                            </section>
+                            <section class="form-btns">
+                                <button class="add">Save</button>
+                                <button class="cancel">Cancel</button>
+                            </section>
+                        </form> -->
         </section>
 
     </main>

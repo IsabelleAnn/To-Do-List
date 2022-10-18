@@ -77,7 +77,7 @@ main {
 
 /* ICONS */
 
-.icons {
+.icon {
     font-size: 1rem;
 }
 
@@ -92,7 +92,8 @@ i.fa-xmark {
 }
 
 .task-title-wrapper>i:hover,
-i.fa-xmark:hover {
+i.fa-xmark:hover,
+i.fa-pen-to-square:hover {
     font-size: 1.2rem;
 }
 
@@ -250,6 +251,7 @@ form {
     background-color: var(--baskets-background-color);
     display: flex;
     flex-direction: column;
+    border-radius: 15px;
 }
 
 section.form-heading {
@@ -259,10 +261,13 @@ section.form-heading {
     padding: 10px 20px;
     background-color: var(--heading-background-color);
     border-bottom: var(--border-style);
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
 }
 
 section.form-data {
     display: flex;
+    padding: 10px 20px;
 }
 
 section.left-side,
@@ -280,17 +285,17 @@ section.right-side {
 }
 
 section.form-btns {
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
-    padding: 10px 20px 20px 10px;
+    padding: 10px 20px;
+    margin-left: auto;
 }
 
-form#edit-task-form>section.form-data {
+
+/* form#edit-task-form>section.form-data {
     margin-top: 20px;
-}
+} */
 
-button.add {
+button#add-basket-btn,
+button#add-task-btn {
     color: var(--dark-font-color);
     font-size: 1.2rem;
     font-family: var(--font);
@@ -302,7 +307,8 @@ button.add {
     cursor: pointer;
 }
 
-button.cancel {
+button#cancel-basket-btn,
+button#cancel-task-btn {
     color: var(--dark-font-color);
     font-size: 1.2rem;
     font-family: var(--font);
@@ -313,8 +319,10 @@ button.cancel {
     height: 35px;
 }
 
-button.add:hover,
-button.cancel:hover {
+button#add-basket-btn:hover,
+button#add-task-btn:hover,
+button#cancel-basket-btn:hover,
+button#cancel-task-btn:hover {
     border: dotted 2px var(--dark-font-color);
 }
 
@@ -375,7 +383,8 @@ p.required {
 
 h4,
 .fa-circle-exclamation,
-.fa-xmark {
+.fa-xmark,
+.fa-pen-to-square {
     padding-left: 10px;
 }
 
@@ -414,10 +423,10 @@ h4,
 }
 
 .task-description {
-    padding: 5px 0px 0px 5px;
-    overflow: hidden;
+    padding: 5px;
+    /* overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
+    white-space: nowrap; */
 }
 
 .made-by {

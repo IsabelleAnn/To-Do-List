@@ -1,50 +1,13 @@
-import { handleClick } from './eventHandlers.js';
+import { handleBasketFilterClick, handleTaskClick, addTaskLinkClick } from './eventHandlers.js';
 import { removeBasketFromLibrary, removeTaskFromLibrary } from './logic.js';
 
 var baskets;
 var basketToDelete;
 
-function displayAllBaskets(library, wrapper) {
-    library.forEach((basket) => {
-        let renderedBasket = renderBasket(basket, wrapper);
-        basket.tasks.forEach((task) => {
-            renderTaskToBasket(task, renderedBasket);
-        });
-    });
-}
-
-function displayBasketsDue(library, date, wrapper) {
-    let filteredBaskets = [];
-    library.forEach((basket, index) => basket.tasks.forEach((task) => {
-        if (task.dueDate === date) {
-            if ((filteredBaskets[index] === undefined)) {
-                filteredBaskets.push({ basketName: basket.basketName, tasks: [task] });
-            } else {
-                filteredBaskets[index].tasks.push(task);
-            }
-        }
-    }));
-    displayAllBaskets(filteredBaskets, wrapper);
-}
-
-function displaySelectedBasket(library, selectedBasket, wrapper) {
-    let basket = library.find(b => b.basketName === selectedBasket);
-    let renderedBasket = renderBasket(basket, wrapper);
-    basket.tasks.forEach((task) => {
-        renderTaskToBasket(task, renderedBasket);
-    });
-}
-
-function displayBasketNavLinks(library, navContainer) {
-    library.forEach((basket) => {
-        renderBasketToNav(basket.basketName, navContainer);
-    });
-}
-
 function renderBasketToNav(basketName, navWrapper) {
     const basketFilterWrapper = document.createElement('li');
     basketFilterWrapper.classList.add('basket-filter-wrapper', 'nav-link');
-    basketFilterWrapper.addEventListener('click', handleClick);
+    basketFilterWrapper.addEventListener('click', handleBasketFilterClick);
     const filterBasketName = document.createElement('h3');
     filterBasketName.classList.add('filter-basket');
     filterBasketName.textContent = basketName;
@@ -59,7 +22,7 @@ function renderTaskToBasket(currentTask, currentBasket) {
     const taskWrapper = document.createElement('div');
     taskWrapper.classList.add('task');
     currentBasket.appendChild(taskWrapper);
-    taskWrapper.addEventListener('click', handleClick);
+    taskWrapper.addEventListener('click', handleTaskClick);
     const taskDetails = document.createElement('div');
     taskDetails.classList.add('task-details');
     taskWrapper.appendChild(taskDetails);
@@ -67,9 +30,9 @@ function renderTaskToBasket(currentTask, currentBasket) {
     taskTitleWrapper.classList.add('task-title-wrapper');
     taskDetails.appendChild(taskTitleWrapper);
     const uncheckedBoxIcon = document.createElement('i');
-    uncheckedBoxIcon.classList.add('fa-regular', 'fa-square', 'icons');
+    uncheckedBoxIcon.classList.add('fa-regular', 'fa-square', 'icon');
     const checkedBoxIcon = document.createElement('i');
-    checkedBoxIcon.classList.add('fa-regular', 'fa-square-check', 'icons', 'hidden');
+    checkedBoxIcon.classList.add('fa-regular', 'fa-square-check', 'icon', 'hidden');
     const taskTitle = document.createElement('h4');
     taskTitle.textContent = currentTask.taskName;
     taskTitleWrapper.appendChild(uncheckedBoxIcon);
@@ -81,9 +44,9 @@ function renderTaskToBasket(currentTask, currentBasket) {
     taskDetails.appendChild(taskStatusWrapper);
     const dueDate = document.createElement('p');
     dueDate.textContent = currentTask.dueDate;
-    dueDate.classList.add('hidden');
+    // dueDate.classList.add('hidden');
     const priorityIcon = document.createElement('i');
-    priorityIcon.classList.add('fa-solid', 'fa-circle-exclamation', 'icons');
+    priorityIcon.classList.add('fa-solid', 'fa-circle-exclamation', 'icon');
 
     switch (currentTask.priority) {
         case 'high':
@@ -102,6 +65,9 @@ function renderTaskToBasket(currentTask, currentBasket) {
 
     taskStatusWrapper.appendChild(dueDate);
     taskStatusWrapper.appendChild(priorityIcon);
+    const editIcon = document.createElement('i');
+    editIcon.classList.add('fa-regular', 'fa-pen-to-square', 'icon');
+    taskStatusWrapper.appendChild(editIcon);
     taskStatusWrapper.appendChild(createXMarkIcon());
 
     const taskDescription = document.createElement('p');
@@ -110,8 +76,6 @@ function renderTaskToBasket(currentTask, currentBasket) {
     taskWrapper.appendChild(taskDescription);
 
 }
-
-
 
 function renderBasket(currentBasket, container) {
     const basketWrapper = document.createElement('div');
@@ -142,14 +106,14 @@ function renderBasket(currentBasket, container) {
 
 function createXMarkIcon() {
     const xMarkIcon = document.createElement('i');
-    xMarkIcon.classList.add('fa-solid', 'fa-xmark', 'icons');
+    xMarkIcon.classList.add('fa-solid', 'fa-xmark', 'icon');
 
     return xMarkIcon;
 }
 
 function createBasketIcon() {
     const basketIcon = document.createElement('i');
-    basketIcon.classList.add('fa-sharp', 'fa-solid', 'fa-basket-shopping', 'icons');
+    basketIcon.classList.add('fa-sharp', 'fa-solid', 'fa-basket-shopping', 'icon');
 
     return basketIcon;
 }
@@ -160,8 +124,9 @@ function createAddBtn(adderName) {
     const adder = document.createElement('p');
     adder.classList.add(`add-${adderName}`);
     const plusIcon = document.createElement('i');
-    plusIcon.classList.add('fa-solid', 'fa-plus', 'icons');
+    plusIcon.classList.add('fa-solid', 'fa-plus', 'icon');
     const span = document.createElement('span');
+    adderWrapper.addEventListener('click', addTaskLinkClick);
     adderWrapper.appendChild(adder);
     adder.appendChild(plusIcon);
     adder.appendChild(span);
@@ -182,16 +147,25 @@ function toggleTaskCompleted(targetTask) {
     }
 }
 
-function toggleTaskDetails(targetTask) {
+function toggleTaskDescription(targetTask) {
+    console.log(targetTask);
+    if (targetTask.querySelector('.task-description').classList.contains('hidden')) {
+        targetTask.querySelector('.task-description').classList.remove('hidden');
+    } else {
+        targetTask.querySelector('.task-description').classList.add('hidden');
+    }
 
 }
 
 function toggleSelectedLink(targetLink) {
-    document.querySelector('.selected').classList.remove('selected');
+    if (document.querySelector('.selected')) {
+        document.querySelector('.selected').classList.remove('selected');
+    }
     targetLink.classList.add('selected');
 }
 
 function removeBasket(targetBasket, index) {
+    console.log('removeBasket', targetBasket, index);
     baskets = Array.from(document.querySelectorAll('.basket'));
     basketToDelete = baskets.find((parent) => {
         if (parent.querySelector('.basket-name').textContent === targetBasket.innerText) {
@@ -202,6 +176,7 @@ function removeBasket(targetBasket, index) {
         basketToDelete.remove();
     }
     removeBasketFromLibrary(index);
+    console.log('removeBasketFromLibrary', index);
     targetBasket.remove();
 }
 
@@ -211,4 +186,10 @@ function removeTask(targetTask, basketOfTask, index) {
 }
 
 
-export { displayAllBaskets, displayBasketsDue, displaySelectedBasket, displayBasketNavLinks, toggleSelectedLink, toggleTaskDetails, toggleTaskCompleted, removeBasket, removeTask }
+function revealTaskForm() {
+    document.querySelector('#new-task-form').classList.remove('hidden');
+    document.querySelector('.forms').classList.remove('hidden');
+}
+
+
+export { revealTaskForm, renderBasketToNav, renderBasket, renderTaskToBasket, toggleSelectedLink, toggleTaskDescription, toggleTaskCompleted, removeBasket, removeTask }
