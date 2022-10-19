@@ -1,4 +1,4 @@
-import { handleBasketFilterClick, handleTaskClick, addTaskLinkClick } from './eventHandlers.js';
+import { handleBasketFilterClick, handleTaskClick, addEventListenerToAddTaskLink } from './eventHandlers.js';
 import { removeBasketFromLibrary, removeTaskFromLibrary } from './logic.js';
 
 var baskets;
@@ -93,7 +93,7 @@ function renderBasket(currentBasket, container) {
     basketNameWrapper.classList.add('basket-name-wrapper');
 
     basketHeader.appendChild(basketNameWrapper);
-    basketHeader.appendChild(createAddBtn('task'));
+    basketHeader.appendChild(createAddTaskLink('task'));
 
     const basketName = document.createElement('h2');
     basketName.classList.add('basket-name');
@@ -118,7 +118,7 @@ function createBasketIcon() {
     return basketIcon;
 }
 
-function createAddBtn(adderName) {
+function createAddTaskLink(adderName) {
     const adderWrapper = document.createElement('div');
     adderWrapper.classList.add(`add-${adderName}-wrapper`);
     const adder = document.createElement('p');
@@ -126,7 +126,7 @@ function createAddBtn(adderName) {
     const plusIcon = document.createElement('i');
     plusIcon.classList.add('fa-solid', 'fa-plus', 'icon');
     const span = document.createElement('span');
-    adderWrapper.addEventListener('click', addTaskLinkClick);
+    addEventListenerToAddTaskLink(adderWrapper);
     adderWrapper.appendChild(adder);
     adder.appendChild(plusIcon);
     adder.appendChild(span);
@@ -186,10 +186,7 @@ function removeTask(targetTask, basketOfTask, index) {
 }
 
 
-function revealTaskForm() {
-    document.querySelector('#new-task-form').classList.remove('hidden');
-    document.querySelector('.forms').classList.remove('hidden');
-}
 
 
-export { revealTaskForm, renderBasketToNav, renderBasket, renderTaskToBasket, toggleSelectedLink, toggleTaskDescription, toggleTaskCompleted, removeBasket, removeTask }
+
+export { renderBasketToNav, renderBasket, renderTaskToBasket, toggleSelectedLink, toggleTaskDescription, toggleTaskCompleted, removeBasket, removeTask }

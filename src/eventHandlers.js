@@ -1,5 +1,5 @@
 import { et } from 'date-fns/locale';
-import { revealTaskForm, renderBasketToNav, toggleSelectedLink, toggleTaskDescription, toggleTaskCompleted, removeBasket, removeTask, renderTaskToBasket } from './dom.js';
+import { renderBasketToNav, toggleSelectedLink, toggleTaskDescription, toggleTaskCompleted, removeBasket, removeTask, renderTaskToBasket } from './dom.js';
 import { contentArea } from './index.js';
 import { addTaskToBasket, Basket, Task, basketsLibrary, createNewBasket, filterAllBaskets, filterBasketsDue, filterSelectedBasket } from './logic.js';
 
@@ -7,42 +7,39 @@ var prevTarget = 'All Tasks';
 var basketIndex;
 var taskIndex;
 var currentBasket;
-
-const mainNavLinks = document.querySelectorAll('.main-nav-link');
-mainNavLinks.forEach(link => {
-    link.addEventListener('click', handleNavClick);
-});
-
-const taskLinks = document.querySelectorAll('.task');
-taskLinks.forEach((task) => {
-    task.addEventListener('click', handleTaskClick);
-});
-
-const addBasketLink = document.querySelector('#add-basket');
-addBasketLink.addEventListener('click', revealBasketForm);
-
-const addBasketBtn = document.querySelector('#add-basket-btn');
-addBasketBtn.addEventListener('click', addNewBasket);
-
-const cancelBasketBtn = document.querySelector('#cancel-basket-btn');
-cancelBasketBtn.addEventListener('click', cancelBasket);
-
-const addTaskBtn = document.querySelector('#add-task-btn');
-addTaskBtn.addEventListener('click', addNewTask);
-
-const cancelTaskBtn = document.querySelector('#cancel-task-btn');
-cancelTaskBtn.addEventListener('click', cancelTask);
-
 let newBasketName;
 let newTaskName;
 let newTaskDescription;
 let newTaskDueDate;
 let newTaskPriority;
 
-//////////////////////////////Form Handlers//////////////////////////////
+const mainNavLinks = document.querySelectorAll('.main-nav-link');
+mainNavLinks.forEach(link => {
+    link.addEventListener('click', handleNavClick);
+});
+const addBasketLink = document.querySelector('#add-basket-link');
+addBasketLink.addEventListener('click', revealBasketForm);
+const addBasketBtn = document.querySelector('#add-basket-btn');
+addBasketBtn.addEventListener('click', addNewBasket);
+const cancelBasketBtn = document.querySelector('#cancel-basket-btn');
+cancelBasketBtn.addEventListener('click', cancelBasket);
+const addTaskBtn = document.querySelector('#add-task-btn');
+addTaskBtn.addEventListener('click', addNewTask);
+const cancelTaskBtn = document.querySelector('#cancel-task-btn');
+cancelTaskBtn.addEventListener('click', cancelTask);
+
+export function addEventListenerToAddTaskLink(element) {
+    element.addEventListener('click', addTaskLinkClick);
+}
+//////////////////////////////MOVE TO DOM//////////////////////////////
 
 function revealBasketForm() {
     document.querySelector('#new-basket-form').classList.remove('hidden');
+    document.querySelector('.forms').classList.remove('hidden');
+}
+
+function revealTaskForm() {
+    document.querySelector('#new-task-form').classList.remove('hidden');
     document.querySelector('.forms').classList.remove('hidden');
 }
 
@@ -51,19 +48,13 @@ function hideBasketForm() {
     document.querySelector('.forms').classList.add('hidden');
 }
 
+function hideTaskForm() {
+    document.querySelector('#new-task-form').classList.add('hidden');
+    document.querySelector('.forms').classList.add('hidden');
+}
+
 function emptyBasketForm() {
     document.querySelector('#basket-name').value = '';
-}
-
-function addTaskLinkClick(e) {
-    revealTaskForm();
-    console.log(e.target);
-    currentBasket = e.target;
-}
-
-function hideTaskForm() {
-    document.querySelector('#new-basket-form').classList.add('hidden');
-    document.querySelector('.forms').classList.add('hidden');
 }
 
 function emptyTaskForm() {
@@ -71,7 +62,23 @@ function emptyTaskForm() {
     document.querySelector('#description').value = '';
     document.querySelector('#due-date').value = '';
     document.querySelector('#priority').value = 'none';
+}
 
+function addTaskLinkClick(e) {
+    revealTaskForm();
+    currentBasket = e.target.closest('.basket');
+}
+
+function cancelBasket(e) {
+    e.preventDefault();
+    hideBasketForm();
+    emptyBasketForm();
+}
+
+function cancelTask(e) {
+    e.preventDefault();
+    hideTaskForm();
+    emptyTaskForm();
 }
 
 function addNewBasket(e) {
@@ -86,30 +93,17 @@ function addNewBasket(e) {
     emptyBasketForm();
 }
 
-function cancelBasket(e) {
-    e.preventDefault();
-    hideBasketForm();
-    emptyBasketForm();
-}
-
 function addNewTask(e) {
     e.preventDefault();
-    console.log('new task event', e.target);
+
     newTaskName = document.querySelector('#task-name').value;
     newTaskDescription = document.querySelector('#description').value;
     newTaskDueDate = document.querySelector('#due-date').value;
-    newTaskPriority = document.querySelector('#priority');
+    newTaskPriority = document.querySelector('#priority').value;
 
     let newTask = new Task(newTaskName, newTaskDescription, newTaskDueDate, newTaskPriority);
 
-    // addTaskToBasket(newTask, basket);
-    renderTaskToBasket(newTask, "ENTER CURRENT BASKET VARIABLE");
-    hideTaskForm();
-    emptyTaskForm();
-}
-
-function cancelTask(e) {
-    e.preventDefault();
+    renderTaskToBasket(newTask, currentBasket);
     hideTaskForm();
     emptyTaskForm();
 }
@@ -147,7 +141,7 @@ function handleTaskClick(e) {
     if (isClickOnXMark(e.target.className)) {
         console.log('xmark current target', e.currentTarget);
         handleContentRemoval(basketsLibrary, e.currentTarget);
-    } else if (e.target.classList.contains('fa-regular')) {
+    } else if (e.target.classList.contains('fa-square') || e.target.classList.contains('fa-square-check')) {
         console.log('toggleTaskCompleted', e.currentTarget);
         toggleTaskCompleted(e.currentTarget);
     } else {
@@ -198,4 +192,4 @@ function handleContentRemoval(library, currentTarget) {
     }
 }
 
-export { addTaskLinkClick, handleBasketFilterClick, revealBasketForm, revealTaskForm, handleTaskClick }
+export { addTaskLinkClick, handleBasketFilterClick, handleTaskClick }

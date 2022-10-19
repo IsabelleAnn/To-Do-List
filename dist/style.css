@@ -190,13 +190,13 @@ h3 {
     padding: 10px;
 }
 
-#add-basket {
+#add-basket-link {
     padding-left: 10px;
 }
 
 .add-task {}
 
-p#add-basket:hover,
+p#add-basket-link:hover,
 p.add-task:hover {
     cursor: pointer;
     font-weight: bold;
