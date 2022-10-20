@@ -1,10 +1,6 @@
 import { handleBasketFilterClick, handleTaskClick, addEventListenerToAddTaskLink } from './eventHandlers.js';
-import { removeBasketFromLibrary, removeTaskFromLibrary } from './logic.js';
 
-var baskets;
-var basketToDelete;
-
-function renderBasketToNav(basketName, navWrapper) {
+export function renderBasketToNav(basketName, navWrapper) {
     const basketFilterWrapper = document.createElement('li');
     basketFilterWrapper.classList.add('basket-filter-wrapper', 'nav-link');
     basketFilterWrapper.addEventListener('click', handleBasketFilterClick);
@@ -18,7 +14,7 @@ function renderBasketToNav(basketName, navWrapper) {
     basketFilterWrapper.appendChild(createXMarkIcon());
 }
 
-function renderTaskToBasket(currentTask, currentBasket) {
+export function renderTaskToBasket(currentTask, currentBasket) {
     const taskWrapper = document.createElement('div');
     taskWrapper.classList.add('task');
     currentBasket.appendChild(taskWrapper);
@@ -44,10 +40,9 @@ function renderTaskToBasket(currentTask, currentBasket) {
     taskDetails.appendChild(taskStatusWrapper);
     const dueDate = document.createElement('p');
     dueDate.textContent = currentTask.dueDate;
-    // dueDate.classList.add('hidden');
+
     const priorityIcon = document.createElement('i');
     priorityIcon.classList.add('fa-solid', 'fa-circle-exclamation', 'icon');
-
     switch (currentTask.priority) {
         case 'high':
             priorityIcon.classList.add('high-priority');
@@ -77,7 +72,7 @@ function renderTaskToBasket(currentTask, currentBasket) {
 
 }
 
-function renderBasket(currentBasket, container) {
+function renderBasketContent(currentBasket, container) {
     const basketWrapper = document.createElement('div');
     basketWrapper.classList.add('basket');
     const basketHeader = document.createElement('div');
@@ -135,7 +130,44 @@ function createAddTaskLink(adderName) {
     return adderWrapper;
 }
 
-function toggleTaskCompleted(targetTask) {
+export function filterAllBaskets(library, wrapper) {
+    library.forEach((basket) => {
+        let renderedBasket = renderBasketContent(basket, wrapper);
+        basket.tasks.forEach((task) => {
+            renderTaskToBasket(task, renderedBasket);
+        });
+    });
+}
+
+export function filterBasketsDue(library, date, wrapper) {
+    let filteredBaskets = [];
+    library.forEach((basket, index) => basket.tasks.forEach((task) => {
+        if (task.dueDate === date) {
+            if ((filteredBaskets[index] === undefined)) {
+                filteredBaskets.push({ basketName: basket.basketName, tasks: [task] });
+            } else {
+                filteredBaskets[index].tasks.push(task);
+            }
+        }
+    }));
+    filterAllBaskets(filteredBaskets, wrapper);
+}
+
+export function filterSelectedBasket(library, selectedBasket, wrapper) {
+    let basket = library.find(b => b.basketName === selectedBasket);
+    let renderedBasket = renderBasketContent(basket, wrapper);
+    basket.tasks.forEach((task) => {
+        renderTaskToBasket(task, renderedBasket);
+    });
+}
+
+export function createBasketNavLinks(library, navContainer) {
+    library.forEach((basket) => {
+        renderBasketToNav(basket.basketName, navContainer);
+    });
+}
+
+export function toggleTaskCompleted(targetTask) {
     targetTask.querySelector('h4').classList.toggle('task-checked');
 
     if (targetTask.querySelector('.fa-square-check').classList.contains('hidden')) {
@@ -147,8 +179,9 @@ function toggleTaskCompleted(targetTask) {
     }
 }
 
-function toggleTaskDescription(targetTask) {
+export function toggleTaskDescription(targetTask) {
     console.log(targetTask);
+
     if (targetTask.querySelector('.task-description').classList.contains('hidden')) {
         targetTask.querySelector('.task-description').classList.remove('hidden');
     } else {
@@ -157,17 +190,17 @@ function toggleTaskDescription(targetTask) {
 
 }
 
-function toggleSelectedLink(targetLink) {
+export function toggleSelectedLink(targetLink) {
     if (document.querySelector('.selected')) {
         document.querySelector('.selected').classList.remove('selected');
     }
     targetLink.classList.add('selected');
 }
 
-function removeBasket(targetBasket, index) {
-    console.log('removeBasket', targetBasket, index);
-    baskets = Array.from(document.querySelectorAll('.basket'));
-    basketToDelete = baskets.find((parent) => {
+export function removeBasketFromDOM(targetBasket) {
+    console.log('removeBasketFromDOM', targetBasket);
+    let baskets = Array.from(document.querySelectorAll('.basket'));
+    let basketToDelete = baskets.find((parent) => {
         if (parent.querySelector('.basket-name').textContent === targetBasket.innerText) {
             return parent;
         }
@@ -175,18 +208,9 @@ function removeBasket(targetBasket, index) {
     if (basketToDelete !== undefined) {
         basketToDelete.remove();
     }
-    removeBasketFromLibrary(index);
-    console.log('removeBasketFromLibrary', index);
     targetBasket.remove();
 }
 
-function removeTask(targetTask, basketOfTask, index) {
-    removeTaskFromLibrary(basketOfTask, index);
+export function removeTaskFromDOM(targetTask) {
     targetTask.remove();
 }
-
-
-
-
-
-export { renderBasketToNav, renderBasket, renderTaskToBasket, toggleSelectedLink, toggleTaskDescription, toggleTaskCompleted, removeBasket, removeTask }
