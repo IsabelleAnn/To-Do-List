@@ -295,7 +295,8 @@ section.form-btns {
 } */
 
 button#add-basket-btn,
-button#add-task-btn {
+button#add-task-btn,
+button#edit-task-btn {
     color: var(--dark-font-color);
     font-size: 1.2rem;
     font-family: var(--font);
@@ -308,7 +309,8 @@ button#add-task-btn {
 }
 
 button#cancel-basket-btn,
-button#cancel-task-btn {
+button#cancel-task-btn,
+button#edit-cancel-task-btn {
     color: var(--dark-font-color);
     font-size: 1.2rem;
     font-family: var(--font);
@@ -321,8 +323,10 @@ button#cancel-task-btn {
 
 button#add-basket-btn:hover,
 button#add-task-btn:hover,
+button#edit-task-btn:hover,
 button#cancel-basket-btn:hover,
-button#cancel-task-btn:hover {
+button#cancel-task-btn:hover,
+button#edit-cancel-task-btn:hover {
     border: dotted 2px var(--dark-font-color);
 }
 
