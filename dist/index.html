@@ -116,7 +116,7 @@
             <form id="new-basket-form" action="" class="hidden">
                 <section class="form-heading">
                     <h2>New Basket</h2>
-                    <i class="fa-solid fa-xmark icon"></i>
+
                 </section>
                 <p class="required">Required fields are followed by <strong><span aria-label="required">*</span></strong>
                         </p>
@@ -164,6 +164,37 @@
                             <section class="form-btns">
                                 <button id="add-task-btn">Add</button>
                                 <button id="cancel-task-btn">Cancel</button>
+                            </section>
+                        </form>
+                        <form id="edit-task-form" action="" class="hidden">
+                            <section class="form-heading">
+                                <h2>Edit Task</h2>
+
+                            </section>
+                            <p class="required">Required fields are followed by <strong><span aria-label="required">*</span></strong></p>
+                            <section class="form-data">
+                                <section class="left-side">
+                                    <label for="task-name-edit">Name: *</label>
+                                    <input type="text" name="task-name-edit" id="task-name-edit">
+                                    <label for="description-edit">Description:</label>
+                                    <textarea name="description-edit" id="description-edit" cols="30" rows="10"></textarea>
+                                </section>
+                                <section class="right-side">
+                                    <label for="due-date-edit">Due Date:</label>
+                                    <input type="date" name="due-date-edit" id="due-date-edit">
+                                    <label for="priority-edit">Priority:</label>
+                                    <select name="priority-edit" id="priority-edit">
+                            <option value="">-- Choose Task Priority --</option>
+                            <option value="none" selected>None</option>
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                                </section>
+                            </section>
+                            <section class="form-btns">
+                                <button id="edit-task-btn">Update</button>
+                                <button id="edit-cancel-task-btn">Cancel</button>
                             </section>
                         </form>
                         <!-- <form id="edit-task-form" action="" class="">
