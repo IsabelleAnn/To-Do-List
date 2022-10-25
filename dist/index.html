@@ -113,7 +113,7 @@
         </section>
 
         <section class="forms hidden">
-            <form id="new-basket-form" action="" class="hidden">
+            <form id="new-basket-form" class="hidden">
                 <section class="form-heading">
                     <h2>New Basket</h2>
 
@@ -123,7 +123,7 @@
                         <section class="form-data">
                             <section id="name">
                                 <label for="basket-name">Name: *</label>
-                                <input type="text" name="basket-name" id="basket-name">
+                                <input type="text" name="basket-name" id="basket-name" required>
                             </section>
                             <!-- <section class="right-side">
                                 <label for="color">Color:</label>
@@ -131,7 +131,7 @@
                             </section> -->
                         </section>
                         <section class="form-btns">
-                            <button id="add-basket-btn">Add</button>
+                            <button type="submit" id="add-basket-btn">Add</button>
                             <button id="cancel-basket-btn">Cancel</button>
                         </section>
                         </form>
@@ -144,7 +144,7 @@
                             <section class="form-data">
                                 <section class="left-side">
                                     <label for="task-name">Name: *</label>
-                                    <input type="text" name="task-name" id="task-name">
+                                    <input type="text" name="task-name" id="task-name" required>
                                     <label for="description">Description:</label>
                                     <textarea name="description" id="description" cols="30" rows="10"></textarea>
                                 </section>
@@ -162,7 +162,7 @@
                                 </section>
                             </section>
                             <section class="form-btns">
-                                <button id="add-task-btn">Add</button>
+                                <button type="submit" id="add-task-btn">Add</button>
                                 <button id="cancel-task-btn">Cancel</button>
                             </section>
                         </form>
@@ -175,7 +175,7 @@
                             <section class="form-data">
                                 <section class="left-side">
                                     <label for="task-name-edit">Name: *</label>
-                                    <input type="text" name="task-name-edit" id="task-name-edit">
+                                    <input type="text" name="task-name-edit" id="task-name-edit" required>
                                     <label for="description-edit">Description:</label>
                                     <textarea name="description-edit" id="description-edit" cols="30" rows="10"></textarea>
                                 </section>
@@ -193,7 +193,7 @@
                                 </section>
                             </section>
                             <section class="form-btns">
-                                <button id="edit-task-btn">Update</button>
+                                <button type="submit" id="edit-task-btn">Update</button>
                                 <button id="edit-cancel-task-btn">Cancel</button>
                             </section>
                         </form>

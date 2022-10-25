@@ -1,14 +1,15 @@
+let today = '2022-10-25';
 export let basketsLibrary = [{
         basketName: 'Knit Socks',
         tasks: [{
             taskName: 'Buy yarn A-1',
             description: 'Go to walmart to buy yellow yarn',
-            dueDate: 'Today',
+            dueDate: today,
             priority: 'high',
         }, {
             taskName: 'Buy yarn A-2',
             description: 'Go to walmart to buy yellow yarn',
-            dueDate: 'This Week',
+            dueDate: today,
             priority: 'medium',
         }]
     },
@@ -17,12 +18,12 @@ export let basketsLibrary = [{
         tasks: [{
             taskName: 'Buy yarn B-1',
             description: 'Go to walmart to buy yellow yarn',
-            dueDate: 'This Week',
+            dueDate: today,
             priority: 'low',
         }, {
             taskName: 'Buy yarn B-2',
             description: 'Go to walmart to buy yellow yarn',
-            dueDate: 'Today',
+            dueDate: today,
             priority: 'none',
         }]
     }
@@ -51,6 +52,7 @@ export function addTaskToLibrary(taskObject, targetBasket) {
 }
 
 export function editTaskInLibrary(taskObject, targetBasket, indexOfTask) {
+
     console.log('editTaskInLibrary', taskObject, targetBasket, indexOfTask);
     let findBasket = basketsLibrary.find(basket => basket.basketName === targetBasket);
     findBasket.tasks[indexOfTask] = taskObject;
@@ -75,7 +77,7 @@ export function storeLibraryLocally() {
 
 }
 
-export function getLocalLibrary() {
+export function getLocalLibrary(localLibrary) {
     if (storageAvailable('localStorage')) {
         // Yippee! We can use localStorage awesomeness
     } else {

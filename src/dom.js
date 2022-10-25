@@ -53,8 +53,8 @@ export function renderTaskToBasket(currentTask, currentBasket) {
         case 'low':
             priorityIcon.classList.add('low-priority');
             break;
-        default:
-            priorityIcon.classList.add('no-priority');
+        case 'none':
+            priorityIcon.classList.add('none-priority');
             break;
     }
 
@@ -99,6 +99,14 @@ function renderBasketContent(currentBasket, container) {
     return tasksInBasket;
 }
 
+export function editTaskInDOM(taskObject, taskElement, prevPriorityClassName) {
+    taskElement.querySelector('h4').innerText = taskObject.taskName;
+    taskElement.querySelector('.task-description').innerText = taskObject.description;
+    taskElement.querySelector('p').innerText = taskObject.dueDate;
+    taskElement.querySelector('.fa-circle-exclamation').classList.remove(prevPriorityClassName);
+    taskElement.querySelector('.fa-circle-exclamation').classList.add(`${taskObject.priority}-priority`);
+}
+
 function createXMarkIcon() {
     const xMarkIcon = document.createElement('i');
     xMarkIcon.classList.add('fa-solid', 'fa-xmark', 'icon');
@@ -139,17 +147,59 @@ export function filterAllBaskets(library, wrapper) {
     });
 }
 
-export function filterBasketsDue(library, date, wrapper) {
+
+
+export function filterBasketsDue(library, filter, wrapper) {
     let filteredBaskets = [];
-    library.forEach((basket, index) => basket.tasks.forEach((task) => {
-        if (task.dueDate === date) {
-            if ((filteredBaskets[index] === undefined)) {
-                filteredBaskets.push({ basketName: basket.basketName, tasks: [task] });
-            } else {
-                filteredBaskets[index].tasks.push(task);
+    let today = new Date();
+    let todayDate = today.getDate();
+    let todayMonth = today.getMonth();
+    let todayYear = today.getFullYear();
+
+    function isToday(someDate) {
+        return (someDate.getDate() === todayDate &&
+            someDate.getMonth() === todayMonth &&
+            someDate.getFullYear() === todayYear)
+    }
+
+    function convertDateStringToUTCFormat(someDate) {
+        let convertDateStringToUTCFormat = someDate.split('-');
+
+        return new Date(convertDateStringToUTCFormat[0], convertDateStringToUTCFormat[1] - 1, convertDateStringToUTCFormat[2]);
+    }
+
+    if (filter === 'Today') {
+        library.forEach((basket, index) => basket.tasks.forEach((task) => {
+            if (isToday(convertDateStringToUTCFormat(task.dueDate))) {
+                if ((filteredBaskets[index] === undefined)) {
+                    filteredBaskets.push({ basketName: basket.basketName, tasks: [task] });
+                } else {
+                    filteredBaskets[index].tasks.push(task);
+                }
+
             }
-        }
-    }));
+        }));
+    } else if (filter === 'This Week') {
+        let todayDay = today.getDay();
+        let firstDayOfWeek = new Date(today.setDate(todayDate - todayDay));
+        let lastDayOfWeek = new Date(firstDayOfWeek);
+        lastDayOfWeek.setDate(lastDayOfWeek.getDate() + 6);
+
+        console.log(today.getDate(), today.getDay());
+
+        library.forEach((basket, index) => basket.tasks.forEach((task) => {
+            console.log('task.dueDate', task.dueDate, 'firstdayofweek', firstDayOfWeek, 'lastdayofweek', lastDayOfWeek);
+            if (convertDateStringToUTCFormat(task.dueDate) >= firstDayOfWeek && convertDateStringToUTCFormat(task.dueDate) <= lastDayOfWeek) {
+
+                if ((filteredBaskets[index] === undefined)) {
+                    filteredBaskets.push({ basketName: basket.basketName, tasks: [task] });
+                } else {
+                    filteredBaskets[index].tasks.push(task);
+                }
+            }
+        }));
+    }
+
     filterAllBaskets(filteredBaskets, wrapper);
 }
 

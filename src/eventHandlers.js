@@ -1,5 +1,4 @@
-import { et } from 'date-fns/locale';
-import { renderBasketToNav, renderTaskToBasket, toggleSelectedLink, toggleTaskDescription, toggleTaskCompleted, removeBasketFromDOM, removeTaskFromDOM, filterAllBaskets, filterBasketsDue, filterSelectedBasket } from './dom.js';
+import { renderBasketToNav, renderTaskToBasket, editTaskInDOM, toggleSelectedLink, toggleTaskDescription, toggleTaskCompleted, removeBasketFromDOM, removeTaskFromDOM, filterAllBaskets, filterBasketsDue, filterSelectedBasket } from './dom.js';
 import { Basket, Task, basketsLibrary, addBasketToLibrary, removeBasketFromLibrary, removeTaskFromLibrary, addTaskToLibrary, editTaskInLibrary } from './logic.js';
 
 var prevTarget = 'All Tasks';
@@ -212,20 +211,13 @@ function editTask(e) {
     let editedTaskName = document.querySelector('#task-name-edit').value;
     let editedTaskDescription = document.querySelector('#description-edit').value;
     let editedTaskDueDate = document.querySelector('#due-date-edit').value;
+    console.log('edited task duedate', editedTaskDueDate, 'typeof edited duedate', typeof editedTaskDueDate);
     let editedTaskPriority = document.querySelector('#priority-edit').value;
     let editedTask = new Task(editedTaskName, editedTaskDescription, editedTaskDueDate, editedTaskPriority);
+    emptyEditTaskForm();
+    hideEditTaskForm();
     editTaskInDOM(editedTask, currentTaskElement, prevPriorityClassName);
-    hideTaskForm();
-    emptyTaskForm();
     editTaskInLibrary(editedTask, currentBasketElement.querySelector('.basket-name').innerText, taskIndex);
-}
-
-function editTaskInDOM(taskObject, taskElement, prevPriorityClassName) {
-    taskElement.querySelector('h4').innerText = taskObject.taskName;
-    taskElement.querySelector('.task-description').innerText = taskObject.description;
-    taskElement.querySelector('p').innerText = taskObject.dueDate;
-    taskElement.querySelector('.fa-circle-exclamation').classList.remove(prevPriorityClassName);
-    taskElement.querySelector('.fa-circle-exclamation').classList.add(`${taskObject.priority}-priority`);
 }
 
 function getTaskValues(targetTask, currentBasketElement) {
