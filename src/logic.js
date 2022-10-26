@@ -1,4 +1,36 @@
-export let basketsLibrary = [];
+export let basketsLibrary = [{
+        basketName: 'Knit Socks',
+        tasks: [{
+            taskName: 'Buy yarn A-1',
+            description: 'Go to walmart to buy yellow yarn',
+            dueDate: '',
+            priority: 'high',
+            completed: false
+        }, {
+            taskName: 'Buy yarn A-2',
+            description: 'Go to walmart to buy yellow yarn',
+            dueDate: '',
+            priority: 'medium',
+            completed: true
+        }]
+    },
+    {
+        basketName: 'Build Lamp',
+        tasks: [{
+            taskName: 'Buy yarn B-1',
+            description: 'Go to walmart to buy yellow yarn',
+            dueDate: '',
+            priority: 'low',
+            completed: false
+        }, {
+            taskName: 'Buy yarn B-2',
+            description: 'Go to walmart to buy yellow yarn',
+            dueDate: '',
+            priority: 'none',
+            completed: true
+        }]
+    }
+];
 
 export class Basket {
     constructor(basketName = '', tasks = []) {
@@ -13,12 +45,25 @@ export class Task {
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
+        this.completed = false;
     }
 }
 
 export function addTaskToLibrary(taskObject, targetBasket) {
     let findBasket = basketsLibrary.find(basket => basket.basketName === targetBasket);
     findBasket.tasks.push(taskObject);
+    storeLibraryLocally();
+}
+
+export function markTaskCompleted(targetBasket, indexOfTask) {
+    let findBasket = basketsLibrary.find(basket => basket.basketName === targetBasket);
+    findBasket.tasks[indexOfTask].completed = true;
+    storeLibraryLocally();
+}
+
+export function unmarkTaskCompleted(targetBasket, indexOfTask) {
+    let findBasket = basketsLibrary.find(basket => basket.basketName === targetBasket);
+    findBasket.tasks[indexOfTask].completed = false;
     storeLibraryLocally();
 }
 
@@ -49,6 +94,7 @@ export function getLocalLibrary() {
         if (baskets) {
             basketsLibrary = JSON.parse(baskets);
         } else {
+            storeLibraryLocally(basketsLibrary);
             console.log('Local Storage did not exist yet. Got empty library. []');
         }
     } else {
@@ -56,7 +102,7 @@ export function getLocalLibrary() {
     }
 }
 
-function storeLibraryLocally() {
+export function storeLibraryLocally() {
     if (storageAvailable('localStorage')) {
         localStorage.setItem('baskets', JSON.stringify(basketsLibrary));
     } else {

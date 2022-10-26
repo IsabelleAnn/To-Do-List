@@ -1,4 +1,5 @@
 import { handleBasketFilterClick, handleTaskClick, addEventListenerToAddTaskLink } from './eventHandlers.js';
+import { markTaskCompleted, unmarkTaskCompleted } from './logic.js';
 
 export function renderBasketToNav(basketName, navWrapper) {
     const basketFilterWrapper = document.createElement('li');
@@ -25,12 +26,23 @@ export function renderTaskToBasket(currentTask, currentBasket) {
     const taskTitleWrapper = document.createElement('div');
     taskTitleWrapper.classList.add('task-title-wrapper');
     taskDetails.appendChild(taskTitleWrapper);
+
     const uncheckedBoxIcon = document.createElement('i');
-    uncheckedBoxIcon.classList.add('fa-regular', 'fa-square', 'icon');
     const checkedBoxIcon = document.createElement('i');
-    checkedBoxIcon.classList.add('fa-regular', 'fa-square-check', 'icon', 'hidden');
+
     const taskTitle = document.createElement('h4');
     taskTitle.textContent = currentTask.taskName;
+
+    if (currentTask.completed) {
+        taskTitle.classList.add('task-checked');
+        uncheckedBoxIcon.classList.add('fa-regular', 'fa-square', 'icon', 'hidden');
+        checkedBoxIcon.classList.add('fa-regular', 'fa-square-check', 'icon');
+    } else {
+        taskTitle.classList.remove('task-checked');
+        uncheckedBoxIcon.classList.add('fa-regular', 'fa-square', 'icon');
+        checkedBoxIcon.classList.add('fa-regular', 'fa-square-check', 'icon', 'hidden');
+    }
+
     taskTitleWrapper.appendChild(uncheckedBoxIcon);
     taskTitleWrapper.appendChild(checkedBoxIcon);
     taskTitleWrapper.appendChild(taskTitle);
@@ -147,8 +159,6 @@ export function filterAllBaskets(library, wrapper) {
     });
 }
 
-
-
 export function filterBasketsDue(library, filter, wrapper) {
     let filteredBaskets = [];
     let today = new Date();
@@ -164,7 +174,6 @@ export function filterBasketsDue(library, filter, wrapper) {
 
     function convertDateStringToUTCFormat(someDate) {
         let convertDateStringToUTCFormat = someDate.split('-');
-
         return new Date(convertDateStringToUTCFormat[0], convertDateStringToUTCFormat[1] - 1, convertDateStringToUTCFormat[2]);
     }
 
@@ -176,7 +185,6 @@ export function filterBasketsDue(library, filter, wrapper) {
                 } else {
                     filteredBaskets[index].tasks.push(task);
                 }
-
             }
         }));
     } else if (filter === 'This Week') {
@@ -184,13 +192,8 @@ export function filterBasketsDue(library, filter, wrapper) {
         let firstDayOfWeek = new Date(today.setDate(todayDate - todayDay));
         let lastDayOfWeek = new Date(firstDayOfWeek);
         lastDayOfWeek.setDate(lastDayOfWeek.getDate() + 6);
-
-        console.log(today.getDate(), today.getDay());
-
         library.forEach((basket, index) => basket.tasks.forEach((task) => {
-            console.log('task.dueDate', task.dueDate, 'firstdayofweek', firstDayOfWeek, 'lastdayofweek', lastDayOfWeek);
             if (convertDateStringToUTCFormat(task.dueDate) >= firstDayOfWeek && convertDateStringToUTCFormat(task.dueDate) <= lastDayOfWeek) {
-
                 if ((filteredBaskets[index] === undefined)) {
                     filteredBaskets.push({ basketName: basket.basketName, tasks: [task] });
                 } else {
@@ -199,7 +202,6 @@ export function filterBasketsDue(library, filter, wrapper) {
             }
         }));
     }
-
     filterAllBaskets(filteredBaskets, wrapper);
 }
 
@@ -217,27 +219,28 @@ export function createBasketNavLinks(library, navContainer) {
     });
 }
 
-export function toggleTaskCompleted(targetTask) {
-    targetTask.querySelector('h4').classList.toggle('task-checked');
+export function toggleTaskCompleted(targetBasket, targetTask, taskIndex) {
+    let basketName = targetBasket.querySelector('.basket-name').innerText;
 
     if (targetTask.querySelector('.fa-square-check').classList.contains('hidden')) {
+        markTaskCompleted(basketName, taskIndex);
+        targetTask.querySelector('h4').classList.add('task-checked');
         targetTask.querySelector('.fa-square-check').classList.remove('hidden');
         targetTask.querySelector('.fa-square').classList.add('hidden');
     } else {
+        unmarkTaskCompleted(basketName, taskIndex);
+        targetTask.querySelector('h4').classList.remove('task-checked');
         targetTask.querySelector('.fa-square-check').classList.add('hidden');
         targetTask.querySelector('.fa-square').classList.remove('hidden');
     }
 }
 
 export function toggleTaskDescription(targetTask) {
-    console.log(targetTask);
-
     if (targetTask.querySelector('.task-description').classList.contains('hidden')) {
         targetTask.querySelector('.task-description').classList.remove('hidden');
     } else {
         targetTask.querySelector('.task-description').classList.add('hidden');
     }
-
 }
 
 export function toggleSelectedLink(targetLink) {
@@ -248,7 +251,6 @@ export function toggleSelectedLink(targetLink) {
 }
 
 export function removeBasketFromDOM(targetBasket) {
-    console.log('removeBasketFromDOM', targetBasket);
     let baskets = Array.from(document.querySelectorAll('.basket'));
     let basketToDelete = baskets.find((parent) => {
         if (parent.querySelector('.basket-name').textContent === targetBasket.innerText) {

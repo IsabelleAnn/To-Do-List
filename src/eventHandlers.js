@@ -54,27 +54,38 @@ function revealEditTaskForm(e) {
 function addNewBasket(e) {
     e.preventDefault();
     let newBasketName = document.querySelector('#basket-name').value;
-    let newBasket = new Basket(newBasketName);
-    addBasketToLibrary(newBasket);
-    renderBasketToNav(newBasket.basketName, document.querySelector('#basket-filters'));
-    hideBasketForm();
-    emptyBasketForm();
+    if (newBasketName.trim() !== '') {
+        let newBasket = new Basket(newBasketName);
+        addBasketToLibrary(newBasket);
+        renderBasketToNav(newBasket.basketName, document.querySelector('#basket-filters'));
+        const contentArea = document.querySelector('.content');
+        handleContentDisplay(basketsLibrary, newBasketName, contentArea);
+        let filters = document.querySelectorAll('.basket-filter-wrapper');
+        let addedFilter = Array.from(filters).find((filter) => filter.querySelector('.filter-basket').innerText == newBasketName);
+        toggleSelectedLink(addedFilter);
+        hideBasketForm();
+        emptyBasketForm();
+    } else {
+        document.querySelector('#basket-name').style.border = '2px solid #f54899';
+    }
 }
 
 function addNewTask(e) {
     e.preventDefault();
-
     let newTaskName = document.querySelector('#task-name').value;
-    let newTaskDescription = document.querySelector('#description').value;
-    let newTaskDueDate = document.querySelector('#due-date').value;
-    let newTaskPriority = document.querySelector('#priority').value;
+    if (newTaskName.trim() !== '') {
+        let newTaskDescription = document.querySelector('#description').value;
+        let newTaskDueDate = document.querySelector('#due-date').value;
+        let newTaskPriority = document.querySelector('#priority').value;
+        let newTask = new Task(newTaskName, newTaskDescription, newTaskDueDate, newTaskPriority);
+        renderTaskToBasket(newTask, currentBasketElement);
+        addTaskToLibrary(newTask, currentBasketElement.querySelector('.basket-name').innerText);
+        hideTaskForm();
+        emptyTaskForm();
+    } else {
+        document.querySelector('#task-name').style.border = '2px solid #f54899';
+    }
 
-    let newTask = new Task(newTaskName, newTaskDescription, newTaskDueDate, newTaskPriority);
-
-    renderTaskToBasket(newTask, currentBasketElement);
-    addTaskToLibrary(newTask, currentBasketElement.querySelector('.basket-name').innerText);
-    hideTaskForm();
-    emptyTaskForm();
 }
 
 function cancelBasket(e) {
@@ -152,7 +163,8 @@ export function handleTaskClick(e) {
     } else if (e.target.classList.contains('fa-pen-to-square')) {
         revealEditTaskForm(e);
     } else if (e.target.classList.contains('fa-square') || e.target.classList.contains('fa-square-check')) {
-        toggleTaskCompleted(e.currentTarget);
+        currentBasketElement = e.target.closest('.basket');
+        toggleTaskCompleted(currentBasketElement, e.currentTarget, getTaskIndex(e.currentTarget));
     } else {
         toggleTaskDescription(e.currentTarget);
     }
@@ -162,40 +174,38 @@ function isClickOnXMark(target) {
     return target.classList.contains('fa-xmark');
 }
 
-function handleContentDisplay(library, currentTarget, contentContainer) {
+function handleContentDisplay(basketsLibrary, currentTarget, contentContainer) {
     if (prevTarget !== currentTarget) {
         contentContainer.textContent = '';
         if (currentTarget === 'All Tasks') {
-            filterAllBaskets(library, contentContainer);
+            filterAllBaskets(basketsLibrary, contentContainer);
             return;
         }
         if (currentTarget === 'Today' || currentTarget === 'This Week') {
-            filterBasketsDue(library, currentTarget, contentContainer);
+            filterBasketsDue(basketsLibrary, currentTarget, contentContainer);
             return;
         }
-        filterSelectedBasket(library, currentTarget, contentContainer);
+        filterSelectedBasket(basketsLibrary, currentTarget, contentContainer);
     }
-
 }
 
-function handleContentRemoval(library, currentTarget) {
+function handleContentRemoval(basketsLibrary, currentTarget) {
     if (currentTarget.classList.contains('nav-link')) {
-        let basketIndex = library.indexOf(library.find((basket) => {
+        let basketIndex = basketsLibrary.indexOf(basketsLibrary.find((basket) => {
             if (basket.basketName === currentTarget.innerText) {
                 return basket;
             }
         }));
         removeBasketOnClick(currentTarget, basketIndex);
     }
-
     if (currentTarget.className === 'task') {
-        let taskIndex = getTaskIndex(library, currentTarget);
+        let taskIndex = getTaskIndex(currentTarget);
         removeTaskOnClick(currentTarget, currentTarget.closest('.basket').querySelector('.basket-name').innerText, taskIndex);
     }
 }
 
-function getTaskIndex(library, currentTarget) {
-    let basketObject = library.find((basket) => basket.basketName === currentTarget.closest('.basket').querySelector('.basket-name').innerText);
+function getTaskIndex(currentTarget) {
+    let basketObject = basketsLibrary.find((basket) => basket.basketName === currentTarget.closest('.basket').querySelector('.basket-name').innerText);
     let taskIndex = basketObject.tasks.indexOf(basketObject.tasks.find((task) => {
         if (task.taskName === currentTarget.querySelector('.task-title-wrapper').innerText) {
             return task;
@@ -206,12 +216,11 @@ function getTaskIndex(library, currentTarget) {
 
 function editTask(e) {
     e.preventDefault();
-    let taskIndex = getTaskIndex(basketsLibrary, currentTaskElement);
+    let taskIndex = getTaskIndex(currentTaskElement);
     let prevPriorityClassName = currentTaskElement.querySelector('.fa-circle-exclamation').classList[3];
     let editedTaskName = document.querySelector('#task-name-edit').value;
     let editedTaskDescription = document.querySelector('#description-edit').value;
     let editedTaskDueDate = document.querySelector('#due-date-edit').value;
-    console.log('edited task duedate', editedTaskDueDate, 'typeof edited duedate', typeof editedTaskDueDate);
     let editedTaskPriority = document.querySelector('#priority-edit').value;
     let editedTask = new Task(editedTaskName, editedTaskDescription, editedTaskDueDate, editedTaskPriority);
     emptyEditTaskForm();
@@ -221,13 +230,14 @@ function editTask(e) {
 }
 
 function getTaskValues(targetTask, currentBasketElement) {
-    let currentTaskIndex = getTaskIndex(basketsLibrary, targetTask);
+    let currentTaskIndex = getTaskIndex(targetTask);
     let targetBasketName = currentBasketElement.closest('.basket').querySelector('.basket-name').innerText;
     let basketObject = basketsLibrary.find(basket => basket.basketName === targetBasketName);
     let currentTaskName = basketObject.tasks[currentTaskIndex].taskName;
     let currentTaskDescription = basketObject.tasks[currentTaskIndex].description;
     let currentTaskDueDate = basketObject.tasks[currentTaskIndex].dueDate;
     let currentTaskPriority = basketObject.tasks[currentTaskIndex].priority;
+
     return { currentTaskName, currentTaskDescription, currentTaskDueDate, currentTaskPriority };
 }
 
