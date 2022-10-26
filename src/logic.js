@@ -1,33 +1,5 @@
-// let today = '2022-10-25';
 export let basketsLibrary = [];
-// {
-//     basketName: 'Knit Socks',
-//     tasks: [{
-//         taskName: 'Buy yarn A-1',
-//         description: 'Go to walmart to buy yellow yarn',
-//         dueDate: today,
-//         priority: 'high',
-//     }, {
-//         taskName: 'Buy yarn A-2',
-//         description: 'Go to walmart to buy yellow yarn',
-//         dueDate: today,
-//         priority: 'medium',
-//     }]
-// },
-// {
-//     basketName: 'Build Lamp',
-//     tasks: [{
-//         taskName: 'Buy yarn B-1',
-//         description: 'Go to walmart to buy yellow yarn',
-//         dueDate: today,
-//         priority: 'low',
-//     }, {
-//         taskName: 'Buy yarn B-2',
-//         description: 'Go to walmart to buy yellow yarn',
-//         dueDate: today,
-//         priority: 'none',
-//     }]
-// }
+
 export class Basket {
     constructor(basketName = '', tasks = []) {
         this.basketName = basketName;
@@ -45,7 +17,6 @@ export class Task {
 }
 
 export function addTaskToLibrary(taskObject, targetBasket) {
-    console.log('addTaskToLibrary', taskObject, targetBasket);
     let findBasket = basketsLibrary.find(basket => basket.basketName === targetBasket);
     findBasket.tasks.push(taskObject);
     storeLibraryLocally();
@@ -72,29 +43,24 @@ export function removeBasketFromLibrary(index) {
     storeLibraryLocally();
 }
 
-export function storeLibraryLocally() {
+export function getLocalLibrary() {
+    if (storageAvailable('localStorage')) {
+        let baskets = localStorage.getItem('baskets');
+        if (baskets) {
+            basketsLibrary = JSON.parse(baskets);
+        } else {
+            console.log('Local Storage did not exist yet. Got empty library. []');
+        }
+    } else {
+        console.log('Local Storage Unavailable');
+    }
+}
+
+function storeLibraryLocally() {
     if (storageAvailable('localStorage')) {
         localStorage.setItem('baskets', JSON.stringify(basketsLibrary));
     } else {
         console.log('Could not store locally');
-    }
-}
-
-export function getLocalLibrary() {
-    if (storageAvailable('localStorage')) {
-        let baskets = localStorage.getItem('baskets');
-        console.log(baskets);
-        if (basketsLibrary) {
-            console.log('baskets library', basketsLibrary);
-            console.log('library in local storage:', baskets, typeof baskets);
-            basketsLibrary = JSON.parse(baskets);
-
-        } else {
-            console.log('Baskets did not exist yet. Got empty library. []');
-        }
-        return basketsLibrary;
-    } else {
-        console.log('Local Storage Unavailable');
     }
 }
 
