@@ -1,7 +1,6 @@
 import { getLocalLibrary, basketsLibrary } from './logic.js';
 import { createBasketNavLinks, filterAllBaskets } from './dom.js'
 
-
 function loadInitialPageContent() {
     getLocalLibrary();
     const contentArea = document.querySelector('.content');
