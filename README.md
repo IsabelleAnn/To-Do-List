@@ -1,4 +1,4 @@
-# To-Do-List - WORK IN PROGRESS
+# To-Do-List
 Task List Creater
 
 Part of The Odin Project Curriculum
