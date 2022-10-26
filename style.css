@@ -280,6 +280,14 @@ section.form-btns {
     margin-left: auto;
 }
 
+input#task-name:focus:invalid {
+    border: 2px solid #f54899;
+}
+
+input#basket-name:focus:invalid {
+    border: 2px solid #f54899;
+}
+
 button#add-basket-btn,
 button#add-task-btn,
 button#edit-task-btn {
