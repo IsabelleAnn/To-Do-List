@@ -70,10 +70,18 @@ function addNewBasket(e) {
     }
 }
 
+function validateNameInput(string) {
+    if (string.trim() !== '') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function addNewTask(e) {
     e.preventDefault();
     let newTaskName = document.querySelector('#task-name').value;
-    if (newTaskName.trim() !== '') {
+    if (validateNameInput(newTaskName)) {
         let newTaskDescription = document.querySelector('#description').value;
         let newTaskDueDate = document.querySelector('#due-date').value;
         let newTaskPriority = document.querySelector('#priority').value;
@@ -85,7 +93,25 @@ function addNewTask(e) {
     } else {
         document.querySelector('#task-name').style.border = '2px solid #f54899';
     }
+}
 
+function editTask(e) {
+    e.preventDefault();
+    let editedTaskName = document.querySelector('#task-name-edit').value;
+    if (validateNameInput(editedTaskName)) {
+        let taskIndex = getTaskIndex(currentTaskElement);
+        let prevPriorityClassName = currentTaskElement.querySelector('.fa-circle-exclamation').classList[3];
+        let editedTaskDescription = document.querySelector('#description-edit').value;
+        let editedTaskDueDate = document.querySelector('#due-date-edit').value;
+        let editedTaskPriority = document.querySelector('#priority-edit').value;
+        let editedTask = new Task(editedTaskName, editedTaskDescription, editedTaskDueDate, editedTaskPriority);
+        emptyEditTaskForm();
+        hideEditTaskForm();
+        editTaskInDOM(editedTask, currentTaskElement, prevPriorityClassName);
+        editTaskInLibrary(editedTask, currentBasketElement.querySelector('.basket-name').innerText, taskIndex);
+    } else {
+        document.querySelector('#task-name-edit').style.border = '2px solid #f54899';
+    }
 }
 
 function cancelBasket(e) {
@@ -212,21 +238,6 @@ function getTaskIndex(currentTarget) {
         }
     }));
     return taskIndex;
-}
-
-function editTask(e) {
-    e.preventDefault();
-    let taskIndex = getTaskIndex(currentTaskElement);
-    let prevPriorityClassName = currentTaskElement.querySelector('.fa-circle-exclamation').classList[3];
-    let editedTaskName = document.querySelector('#task-name-edit').value;
-    let editedTaskDescription = document.querySelector('#description-edit').value;
-    let editedTaskDueDate = document.querySelector('#due-date-edit').value;
-    let editedTaskPriority = document.querySelector('#priority-edit').value;
-    let editedTask = new Task(editedTaskName, editedTaskDescription, editedTaskDueDate, editedTaskPriority);
-    emptyEditTaskForm();
-    hideEditTaskForm();
-    editTaskInDOM(editedTask, currentTaskElement, prevPriorityClassName);
-    editTaskInLibrary(editedTask, currentBasketElement.querySelector('.basket-name').innerText, taskIndex);
 }
 
 function getTaskValues(targetTask, currentBasketElement) {
