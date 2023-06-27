@@ -1,23 +1,23 @@
 # To-Do-List
-Task List Creater
 
-Part of The Odin Project Curriculum
+Task List Creater
 
 :point_right:[Live Demo](https://isabelleann.github.io/To-Do-List/)
 
 ## Built With:
-  * JavaScript
 
-  * HTML
+- JavaScript
 
-  * CSS
-  
+- HTML
+
+- CSS
+
 ## Tools:
-  * Visual Studio Code
-  
-  * Ubuntu Linux on VirtualBox
-  
-  * git + Github
-  
-  * Webpack
 
+- Visual Studio Code
+
+- Ubuntu Linux on VirtualBox
+
+- git + Github
+
+- Webpack
